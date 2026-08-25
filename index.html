@@ -2,42 +2,55 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Caza Ofertas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caza Ofertas | Las mejores promociones</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .card { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .card img { max-width: 100%; height: 180px; object-fit: contain; }
-    .price { color: #e67e22; font-size: 1.2em; font-weight: bold; }
-    .btn { display: inline-block; padding: 10px; background: #27ae60; color: #fff; text-decoration: none; border-radius: 5px; margin-top: 10px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; padding: 40px 20px; }
+    header { text-align: center; margin-bottom: 40px; }
+    h1 { font-size: 2rem; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+    p.subtitle { color: #64748b; font-size: 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
+    .card { background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease, box-shadow 0.2s ease; border: 1px solid #e2e8f0; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    .img-container { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .card img { max-height: 100%; max-width: 100%; object-fit: contain; }
+    .title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: #334155; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 12px; }
+    .price { font-size: 1.3rem; font-weight: 700; color: #16a34a; margin-bottom: 16px; }
+    .btn { display: block; text-align: center; background-color: #2563eb; color: #ffffff; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: 600; transition: background-color 0.2s ease; }
+    .btn:hover { background-color: #1d4ed8; }
   </style>
 </head>
 <body>
-  <h1>Las Mejores Ofertas del Día</h1>
+  <header>
+    <h1>🔥 Ofertas Destacadas del Día</h1>
+    <p class="subtitle">Las mejores promociones encontradas automáticamente</p>
+  </header>
   <div class="grid">
     <div class="card">
-      <img src="https://example.com/product1.jpg" alt="Producto 1">
-      <h2>Producto 1</h2>
-      <p class="price">$19.99</p>
-      <a href="https://example.com/product1" class="btn">Comprar</a>
+      <div class="img-container">
+        <img src="https://example.com/image1.jpg" alt="Producto 1">
+      </div>
+      <div class="title">Producto 1</div>
+      <div class="price">$20.00</div>
+      <a href="https://example.com/product1" class="btn">Ver Oferta</a>
     </div>
     <div class="card">
-      <img src="https://example.com/product2.jpg" alt="Producto 2">
-      <h2>Producto 2</h2>
-      <p class="price">$29.99</p>
-      <a href="https://example.com/product2" class="btn">Comprar</a>
+      <div class="img-container">
+        <img src="https://example.com/image2.jpg" alt="Producto 2">
+      </div>
+      <div class="title">Producto 2</div>
+      <div class="price">$35.00</div>
+      <a href="https://example.com/product2" class="btn">Ver Oferta</a>
     </div>
     <div class="card">
-      <img src="https://example.com/product3.jpg" alt="Producto 3">
-      <h2>Producto 3</h2>
-      <p class="price">$49.99</p>
-      <a href="https://example.com/product3" class="btn">Comprar</a>
-    </div>
-    <div class="card">
-      <img src="https://example.com/product4.jpg" alt="Producto 4">
-      <h2>Producto 4</h2>
-      <p class="price">$39.99</p>
-      <a href="https://example.com/product4" class="btn">Comprar</a>
+      <div class="img-container">
+        <img src="https://example.com/image3.jpg" alt="Producto 3">
+      </div>
+      <div class="title">Producto 3</div>
+      <div class="price">$15.00</div>
+      <a href="https://example.com/product3" class="btn">Ver Oferta</a>
     </div>
   </div>
 </body>
