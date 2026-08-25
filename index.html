@@ -3,55 +3,147 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caza Ofertas | Las mejores promociones</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>CazadorOfertas | Las Mejores Promociones</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; padding: 40px 20px; }
-    header { text-align: center; margin-bottom: 40px; }
-    h1 { font-size: 2rem; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
-    p.subtitle { color: #64748b; font-size: 1rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
-    .card { background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease, box-shadow 0.2s ease; border: 1px solid #e2e8f0; }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-    .img-container { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #0f172a; }
+    header { background-color: #0f172a; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .logo { font-size: 1.4rem; font-weight: 800; color: #ffffff; text-decoration: none; }
+    .logo span { color: #f59e0b; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 7px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; text-transform: capitalize; }
+    .filter-btn:hover, .filter-btn.active { background: #f59e0b; color: #0f172a; border-color: #f59e0b; font-weight: 700; }
+    main { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 20px; }
+    .card { background: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #e2e8f0; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .card.hidden { display: none; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
+    .badge-discount { position: absolute; top: 12px; right: 12px; background-color: #ef4444; color: #ffffff; font-size: 0.78rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4); z-index: 3; }
+    .img-container { height: 200px; width: 100%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 16px; border-bottom: 1px solid #f1f5f9; position: relative; overflow: hidden; }
     .card img { max-height: 100%; max-width: 100%; object-fit: contain; }
-    .title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: #334155; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 12px; }
-    .price { font-size: 1.3rem; font-weight: 700; color: #16a34a; margin-bottom: 16px; }
-    .btn { display: block; text-align: center; background-color: #2563eb; color: #ffffff; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: 600; transition: background-color 0.2s ease; }
-    .btn:hover { background-color: #1d4ed8; }
+    .card-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.92); color: #f8fafc; padding: 20px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; text-align: center; z-index: 2; }
+    .card:hover .card-overlay { opacity: 1; }
+    .description { font-size: 0.83rem; line-height: 1.4; color: #cbd5e1; }
+    .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .tag { background: #fef3c7; color: #b45309; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+    .title { font-size: 0.95rem; font-weight: 700; color: #1e293b; line-height: 1.4; margin-bottom: 8px; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .rating { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+    .stars { color: #f59e0b; font-size: 0.9rem; letter-spacing: 1px; }
+    .score { font-size: 0.8rem; font-weight: 700; color: #64748b; }
+    .price-container { margin-bottom: 14px; display: flex; align-items: baseline; gap: 8px; }
+    .old-price { font-size: 0.85rem; color: #94a3b8; text-decoration: line-through; }
+    .current-price { font-size: 1.35rem; font-weight: 800; color: #0f172a; }
+    .btn { display: block; text-align: center; background-color: #f59e0b; color: #0f172a; text-decoration: none; padding: 11px; border-radius: 8px; font-weight: 800; font-size: 0.95rem; transition: background-color 0.2s ease; box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2); }
+    .btn:hover { background-color: #d97706; color: #ffffff; }
   </style>
 </head>
 <body>
   <header>
-    <h1>🔥 Ofertas Destacadas del Día</h1>
-    <p class="subtitle">Las mejores promociones encontradas automáticamente</p>
+    <a href="#" class="logo">Cazador<span>Ofertas</span></a>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">⚡ Todos</button>
+      <button class="filter-btn" data-filter="tecnologia">🔌 Tecnología</button>
+      <button class="filter-btn" data-filter="gaming">🎮 Gaming</button>
+      <button class="filter-btn" data-filter="hogar">🏡 Hogar</button>
+    </div>
   </header>
-  <div class="grid">
-    <div class="card">
-      <div class="img-container">
-        <img src="https://example.com/product1.jpg" alt="Producto 1">
+  <main>
+    <div class="grid">
+      <div class="card" data-tags="tecnologia">
+        <div class="img-container">
+          <img src="https://example.com/image1.jpg" alt="Producto 1">
+          <div class="badge-discount">-25%</div>
+        </div>
+        <div class="card-body">
+          <div class="tags">
+            <span class="tag">tecnologia</span>
+          </div>
+          <h2 class="title">Producto 1</h2>
+          <div class="rating">
+            <span class="stars">★★★★☆</span>
+            <span class="score">4.5 / 5</span>
+          </div>
+          <div class="price-container">
+            <span class="old-price">€120.00</span>
+            <span class="current-price">€90.00</span>
+          </div>
+          <p class="description">Dispositivo de alta tecnología que optimiza tu experiencia digital.</p>
+          <a href="https://example.com/product1" class="btn">Comprar Ahora</a>
+        </div>
+        <div class="card-overlay">Aprovecha esta oferta única en el Producto 1.</div>
       </div>
-      <div class="title">Producto 1</div>
-      <div class="price">$19.99</div>
-      <a href="https://example.com/product1" class="btn">Ver Producto</a>
-    </div>
-    <div class="card">
-      <div class="img-container">
-        <img src="https://example.com/product2.jpg" alt="Producto 2">
+      <div class="card" data-tags="gaming">
+        <div class="img-container">
+          <img src="https://example.com/image2.jpg" alt="Producto 2">
+          <div class="badge-discount">-30%</div>
+        </div>
+        <div class="card-body">
+          <div class="tags">
+            <span class="tag">gaming</span>
+          </div>
+          <h2 class="title">Producto 2</h2>
+          <div class="rating">
+            <span class="stars">★★★★☆</span>
+            <span class="score">4.7 / 5</span>
+          </div>
+          <div class="price-container">
+            <span class="old-price">€150.00</span>
+            <span class="current-price">€105.00</span>
+          </div>
+          <p class="description">La mejor experiencia de juego con este producto de última generación.</p>
+          <a href="https://example.com/product2" class="btn">Comprar Ahora</a>
+        </div>
+        <div class="card-overlay">No te pierdas el Producto 2, ideal para gamers.</div>
       </div>
-      <div class="title">Producto 2</div>
-      <div class="price">$29.99</div>
-      <a href="https://example.com/product2" class="btn">Ver Producto</a>
-    </div>
-    <div class="card">
-      <div class="img-container">
-        <img src="https://example.com/product3.jpg" alt="Producto 3">
+      <div class="card" data-tags="hogar tecnologia">
+        <div class="img-container">
+          <img src="https://example.com/image3.jpg" alt="Producto 3">
+          <div class="badge-discount">-20%</div>
+        </div>
+        <div class="card-body">
+          <div class="tags">
+            <span class="tag">hogar</span>
+            <span class="tag">tecnologia</span>
+          </div>
+          <h2 class="title">Producto 3</h2>
+          <div class="rating">
+            <span class="stars">★★★★★</span>
+            <span class="score">5.0 / 5</span>
+          </div>
+          <div class="price-container">
+            <span class="old-price">€80.00</span>
+            <span class="current-price">€64.00</span>
+          </div>
+          <p class="description">Dispositivo que transforma tu hogar en un lugar inteligente y cómodo.</p>
+          <a href="https://example.com/product3" class="btn">Comprar Ahora</a>
+        </div>
+        <div class="card-overlay">Mejora tu hogar con el Producto 3.</div>
       </div>
-      <div class="title">Producto 3</div>
-      <div class="price">$39.99</div>
-      <a href="https://example.com/product3" class="btn">Ver Producto</a>
     </div>
-  </div>
+  </main>
+  <script>
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.card');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+
+        cards.forEach(card => {
+          const tags = card.getAttribute('data-tags') || '';
+          if (filter === 'all' || tags.includes(filter)) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
