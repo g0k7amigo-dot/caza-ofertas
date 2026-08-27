@@ -8,23 +8,45 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #0f172a; }
+
+    /* Header y Navegación */
     header { background-color: #0f172a; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     .logo { font-size: 1.4rem; font-weight: 800; color: #ffffff; text-decoration: none; }
     .logo span { color: #f59e0b; }
+
+    /* Filtros por Categoría */
     .filters { display: flex; gap: 8px; flex-wrap: wrap; }
-    .filter-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 7px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; text-transform: capitalize; }
+    .filter-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 7px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; cursor: pointer; transition: all 0.2s ease; text-transform: capitalize; }
     .filter-btn:hover, .filter-btn.active { background: #f59e0b; color: #0f172a; border-color: #f59e0b; font-weight: 700; }
-    main { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 20px; }
+
+    /* Disclaimer / Nota de transparencia */
+    .disclaimer { background: #e2e8f0; text-align: center; padding: 8px 16px; font-size: 0.78rem; color: #475569; font-weight: 600; }
+
+    /* Layout Principal */
+    main { max-width: 1200px; margin: 24px auto; padding: 0 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    
+    /* Estilos Generales de las Tarjetas de Producto */
     .card { background: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #e2e8f0; transition: transform 0.2s ease, box-shadow 0.2s ease; }
     .card.hidden { display: none; }
     .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
+
+    /* Insignia de Tienda (Amazon vs Mercado Libre) */
+    .platform-tag { position: absolute; top: 12px; left: 12px; font-size: 0.68rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; z-index: 3; }
+    .platform-tag.amazon { background-color: #232f3e; color: #ff9900; }
+    .platform-tag.mercadolibre { background-color: #ffe600; color: #2d3277; }
+
+    /* Insignia de Descuento */
     .badge-discount { position: absolute; top: 12px; right: 12px; background-color: #ef4444; color: #ffffff; font-size: 0.78rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4); z-index: 3; }
+
+    /* Imagen y Overlay */
     .img-container { height: 200px; width: 100%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 16px; border-bottom: 1px solid #f1f5f9; position: relative; overflow: hidden; }
     .card img { max-height: 100%; max-width: 100%; object-fit: contain; }
     .card-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.92); color: #f8fafc; padding: 20px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; text-align: center; z-index: 2; }
     .card:hover .card-overlay { opacity: 1; }
     .description { font-size: 0.83rem; line-height: 1.4; color: #cbd5e1; }
+
+    /* Contenido de la Tarjeta */
     .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
     .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
     .tag { background: #fef3c7; color: #b45309; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
@@ -35,48 +57,64 @@
     .price-container { margin-bottom: 14px; display: flex; align-items: baseline; gap: 8px; }
     .old-price { font-size: 0.85rem; color: #94a3b8; text-decoration: line-through; }
     .current-price { font-size: 1.35rem; font-weight: 800; color: #0f172a; }
+    
+    /* Botón CTA */
     .btn { display: block; text-align: center; background-color: #f59e0b; color: #0f172a; text-decoration: none; padding: 11px; border-radius: 8px; font-weight: 800; font-size: 0.95rem; transition: background-color 0.2s ease; box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2); }
     .btn:hover { background-color: #d97706; color: #ffffff; }
   </style>
 </head>
 <body>
+
   <header>
     <a href="#" class="logo">Cazador<span>Ofertas</span></a>
     <div class="filters">
       <button class="filter-btn active" data-filter="all">⚡ Todos</button>
+      <button class="filter-btn" data-filter="tecnologia">🎮 Tecnología</button>
       <button class="filter-btn" data-filter="hogar">🏠 Hogar</button>
+      <button class="filter-btn" data-filter="accesorios">🎧 Accesorios</button>
     </div>
   </header>
+
+  <div class="disclaimer">
+    ℹ️ Precios de referencia. El valor final y los costos de envío pueden variar en Amazon o Mercado Libre según tu ciudad o país.
+  </div>
+
   <main>
-    <div class="grid">
-      <div class="card" data-tags="hogar tecnologia">
-        <div class="badge-discount">-36%</div>
-        <div class="img-container">
-          <img src="https://m.media-amazon.com/images/I/61dUJLJCe5L._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="roborock 2026 New Qrevo S Pro Robot Vacuum and Mop, 18,500Pa Suction">
-          <div class="card-overlay">
-            <p class="description">Con un potente succion de 18,500Pa, es ideal para hogares con mascotas y ofrece limpieza sin esfuerzo.</p>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="tags">
-            <span class="tag">hogar</span>
-            <span class="tag">tecnologia</span>
-          </div>
-          <h3 class="title">roborock 2026 New Qrevo S Pro Robot Vacuum and Mop, 18,500Pa Suction</h3>
-          <div class="rating">
-            <span class="stars">★★★★☆</span>
-            <span class="score">4.1 / 5</span>
-          </div>
-          <div class="price-container">
-            <span class="old-price">$699.99</span>
-            <span class="current-price">$449.99</span>
-          </div>
-          <a href="https://www.amazon.com/dp/B0GGRSMXKN" class="btn">Comprar Ahora</a>
-        </div>
+    <div class="grid" id="product-container">
+      <div class="card" data-tags="tecnologia, tablet">
+  <span class="platform-tag amazon">Amazon</span>
+  <span class="badge-discount">-8%</span>
+  <div class="img-container">
+    <img src="https://m.media-amazon.com/images/I/714VRmqcVmL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Lenovo Idea Tab - College Tablet - 11″ 2.5K IPS Touchscreen Display - 90Hz - MediaTek Dimensity 6300-8 GB Memory - 256 GB Storage - Integrated Arm Mali-G57 MC2 - Tab Pen and Folio Case">
+    <div class="card-overlay">
+      <p class="description">Make studying smoother and staying on track easier with the Lenovo Idea Tab, your AI-powered study buddy.</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <div>
+      <div class="tags">
+        <span class="tag">tablets</span>
+      </div>
+      <h2 class="title">Lenovo Idea Tab - College Tablet</h2>
+      <div class="rating">
+        <span class="stars">★★★★<span class="star-half">★</span></span>
+        <span class="score">4.6 / 5</span>
       </div>
     </div>
+    <div>
+      <div class="price-container">
+        <span class="old-price">$270.48</span>
+        <span class="current-price">$248</span>
+      </div>
+      <a href="https://www.amazon.com/dp/B0FGYGBY3C" class="btn" target="_blank">Ver Oferta</a>
+    </div>
+  </div>
+</div>
+    </div>
   </main>
+
   <script>
+    // Lógica de filtrado en cliente
     const buttons = document.querySelectorAll('.filter-btn');
     const cards = document.querySelectorAll('.card');
 
@@ -98,5 +136,6 @@
       });
     });
   </script>
+
 </body>
 </html>
