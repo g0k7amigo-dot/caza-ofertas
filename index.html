@@ -4,61 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CazadorOfertas | Las Mejores Promociones</title>
-  <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap)" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #0f172a; }
 
-    /* Header y Navegación */
     header { background-color: #0f172a; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     .logo { font-size: 1.4rem; font-weight: 800; color: #ffffff; text-decoration: none; }
     .logo span { color: #f59e0b; }
 
-    /* Filtros por Categoría */
     .filters { display: flex; gap: 8px; flex-wrap: wrap; }
     .filter-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 7px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; cursor: pointer; transition: all 0.2s ease; text-transform: capitalize; }
     .filter-btn:hover, .filter-btn.active { background: #f59e0b; color: #0f172a; border-color: #f59e0b; font-weight: 700; }
 
-    /* Disclaimer / Nota de transparencia */
     .disclaimer { background: #e2e8f0; text-align: center; padding: 8px 16px; font-size: 0.78rem; color: #475569; font-weight: 600; }
 
-    /* Layout Principal */
     main { max-width: 1200px; margin: 24px auto; padding: 0 20px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
     
-    /* Estilos Generales de las Tarjetas de Producto */
     .card { background: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #e2e8f0; transition: transform 0.2s ease, box-shadow 0.2s ease; }
     .card.hidden { display: none; }
     .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
 
-    /* Insignia de Tienda */
     .platform-tag { position: absolute; top: 12px; left: 12px; font-size: 0.68rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; z-index: 3; }
     .platform-tag.amazon { background-color: #232f3e; color: #ff9900; }
     .platform-tag.mercadolibre { background-color: #ffe600; color: #2d3277; }
 
-    /* Insignia de Descuento */
     .badge-discount { position: absolute; top: 12px; right: 12px; background-color: #ef4444; color: #ffffff; font-size: 0.78rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4); z-index: 3; }
 
-    /* Imagen y Overlay */
     .img-container { height: 200px; width: 100%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 16px; border-bottom: 1px solid #f1f5f9; position: relative; overflow: hidden; }
     .card img { max-height: 100%; max-width: 100%; object-fit: contain; }
-    .card-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.92); color: #f8fafc; padding: 20px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; text-align: center; z-index: 2; }
-    .card:hover .card-overlay { opacity: 1; }
-    .description { font-size: 0.83rem; line-height: 1.4; color: #cbd5e1; }
 
-    /* Contenido de la Tarjeta */
     .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
     .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
     .tag { background: #fef3c7; color: #b45309; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
     .title { font-size: 0.95rem; font-weight: 700; color: #1e293b; line-height: 1.4; margin-bottom: 8px; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-    .rating { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
-    .stars { color: #f59e0b; font-size: 0.9rem; letter-spacing: 1px; }
-    .score { font-size: 0.8rem; font-weight: 700; color: #64748b; }
+    
     .price-container { margin-bottom: 14px; display: flex; align-items: baseline; gap: 8px; }
     .old-price { font-size: 0.85rem; color: #94a3b8; text-decoration: line-through; }
     .current-price { font-size: 1.35rem; font-weight: 800; color: #0f172a; }
     
-    /* Botón CTA */
     .btn { display: block; text-align: center; background-color: #f59e0b; color: #0f172a; text-decoration: none; padding: 11px; border-radius: 8px; font-weight: 800; font-size: 0.95rem; transition: background-color 0.2s ease; box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2); }
     .btn:hover { background-color: #d97706; color: #ffffff; }
   </style>
@@ -67,11 +52,11 @@
 
   <header>
     <a href="#" class="logo">Cazador<span>Ofertas</span></a>
+    <!-- ESPACIO PARA OUTPUT 1: BOTONES DE CATEGORÍA -->
     <div class="filters">
-      <button class="filter-btn active" data-filter="all">⚡ Todos</button>
-      <button class="filter-btn" data-filter="tecnologia">🎮 Tecnología</button>
-      <button class="filter-btn" data-filter="hogar">🏠 Hogar</button>
-      <button class="filter-btn" data-filter="accesorios">🎧 Accesorios</button>
+      
+  <button class="filter-btn active" data-filter="all">⚡ Todos</button>
+  <button class="filter-btn" data-filter="accesorios">🎧 Accesorios</button>
     </div>
   </header>
 
@@ -80,11 +65,1280 @@
   </div>
 
   <main>
+    <!-- ESPACIO PARA OUTPUT 2: TARJETAS DE PRODUCTOS -->
     <div class="grid" id="product-container">
       
-    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #64748b;">
-      <h3 style="font-size: 1.2rem; margin-bottom: 8px; color: #1e293b;">🔥 No hay superofertas activas en este momento</h3>
-      <p style="font-size: 0.9rem;">El cazador está escaneando Amazon. Vuelve a revisar en un rato.</p>
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vTFqE+AsL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="RGB Headset Stand with 9 Light Modes">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">RGB Headset Stand with 9 Light Modes</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$19.99</span>
+            <span class="current-price">$19.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0FY5WRZCM" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.07</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/41Qrn438nJL._SX342_SY445_QL70_FMwebp_.jpg" alt="KDD Headphone Stand & Controller Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KDD Headphone Stand & Controller Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$15.98</span>
+            <span class="current-price">$14.9</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0BCFCKNLL" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.16</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61TFEGpJ-HL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Gaming Accessories Organizer with Headphone Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Gaming Accessories Organizer with Headphone Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$29.99</span>
+            <span class="current-price">$24.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0CZ3LKLFB" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.33</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61h15vfDLvL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="OCCdesign Headset Stand">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">OCCdesign Headset Stand</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$14.99</span>
+            <span class="current-price">$9.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0B1CT1PW2" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71PPp9qElML._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="KAFRI RGB Headphone Stand with Wireless Charger">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KAFRI RGB Headphone Stand with Wireless Charger</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$11.99</span>
+            <span class="current-price">$11.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B09HXHKB96" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/51zZCFvMfKL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="4PCS Video Game Controller Keychains">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">4PCS Video Game Controller Keychains</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$6.29</span>
+            <span class="current-price">$6.29</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0DYTBFQ6N" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.1</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vZlyKdiVL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Ponkor Rechargeable Battery Pack for Xbox">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Ponkor Rechargeable Battery Pack for Xbox</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$18.99</span>
+            <span class="current-price">$17.09</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B07DPNYGST" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vTFqE+AsL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="RGB Headset Stand with 9 Light Modes">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">RGB Headset Stand with 9 Light Modes</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$19.99</span>
+            <span class="current-price">$19.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0FY5WRZCM" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.07</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/41Qrn438nJL._SX342_SY445_QL70_FMwebp_.jpg" alt="KDD Headphone Stand & Controller Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KDD Headphone Stand & Controller Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$15.98</span>
+            <span class="current-price">$14.9</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0BCFCKNLL" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.16</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61TFEGpJ-HL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Gaming Accessories Organizer with Headphone Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Gaming Accessories Organizer with Headphone Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$29.99</span>
+            <span class="current-price">$24.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0CZ3LKLFB" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.33</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61h15vfDLvL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="OCCdesign Headset Stand">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">OCCdesign Headset Stand</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$14.99</span>
+            <span class="current-price">$9.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0B1CT1PW2" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71PPp9qElML._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="KAFRI RGB Headphone Stand with Wireless Charger">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KAFRI RGB Headphone Stand with Wireless Charger</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$11.99</span>
+            <span class="current-price">$11.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B09HXHKB96" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/51zZCFvMfKL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="4PCS Video Game Controller Keychains">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">4PCS Video Game Controller Keychains</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$6.29</span>
+            <span class="current-price">$6.29</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0DYTBFQ6N" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.1</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vZlyKdiVL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Ponkor Rechargeable Battery Pack for Xbox">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Ponkor Rechargeable Battery Pack for Xbox</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$18.99</span>
+            <span class="current-price">$17.09</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B07DPNYGST" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vTFqE+AsL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="RGB Headset Stand with 9 Light Modes">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">RGB Headset Stand with 9 Light Modes</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$19.99</span>
+            <span class="current-price">$19.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0FY5WRZCM" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.07</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/41Qrn438nJL._SX342_SY445_QL70_FMwebp_.jpg" alt="KDD Headphone Stand & Controller Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KDD Headphone Stand & Controller Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$15.98</span>
+            <span class="current-price">$14.9</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0BCFCKNLL" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.16</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61TFEGpJ-HL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Gaming Accessories Organizer with Headphone Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Gaming Accessories Organizer with Headphone Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$29.99</span>
+            <span class="current-price">$24.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0CZ3LKLFB" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.33</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61h15vfDLvL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="OCCdesign Headset Stand">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">OCCdesign Headset Stand</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$14.99</span>
+            <span class="current-price">$9.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0B1CT1PW2" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71PPp9qElML._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="KAFRI RGB Headphone Stand with Wireless Charger">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KAFRI RGB Headphone Stand with Wireless Charger</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$11.99</span>
+            <span class="current-price">$11.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B09HXHKB96" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/51zZCFvMfKL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="4PCS Video Game Controller Keychains">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">4PCS Video Game Controller Keychains</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$6.29</span>
+            <span class="current-price">$6.29</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0DYTBFQ6N" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.1</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vZlyKdiVL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Ponkor Rechargeable Battery Pack for Xbox">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Ponkor Rechargeable Battery Pack for Xbox</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$18.99</span>
+            <span class="current-price">$17.09</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B07DPNYGST" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vTFqE+AsL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="RGB Headset Stand with 9 Light Modes">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">RGB Headset Stand with 9 Light Modes</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$19.99</span>
+            <span class="current-price">$19.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0FY5WRZCM" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.07</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/41Qrn438nJL._SX342_SY445_QL70_FMwebp_.jpg" alt="KDD Headphone Stand & Controller Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KDD Headphone Stand & Controller Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$15.98</span>
+            <span class="current-price">$14.9</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0BCFCKNLL" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.16</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61TFEGpJ-HL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Gaming Accessories Organizer with Headphone Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Gaming Accessories Organizer with Headphone Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$29.99</span>
+            <span class="current-price">$24.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0CZ3LKLFB" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.33</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61h15vfDLvL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="OCCdesign Headset Stand">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">OCCdesign Headset Stand</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$14.99</span>
+            <span class="current-price">$9.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0B1CT1PW2" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71PPp9qElML._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="KAFRI RGB Headphone Stand with Wireless Charger">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KAFRI RGB Headphone Stand with Wireless Charger</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$11.99</span>
+            <span class="current-price">$11.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B09HXHKB96" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/51zZCFvMfKL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="4PCS Video Game Controller Keychains">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">4PCS Video Game Controller Keychains</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$6.29</span>
+            <span class="current-price">$6.29</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0DYTBFQ6N" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.1</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vZlyKdiVL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Ponkor Rechargeable Battery Pack for Xbox">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Ponkor Rechargeable Battery Pack for Xbox</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$18.99</span>
+            <span class="current-price">$17.09</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B07DPNYGST" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vTFqE+AsL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="RGB Headset Stand with 9 Light Modes">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">RGB Headset Stand with 9 Light Modes</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$19.99</span>
+            <span class="current-price">$19.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0FY5WRZCM" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.07</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/41Qrn438nJL._SX342_SY445_QL70_FMwebp_.jpg" alt="KDD Headphone Stand & Controller Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KDD Headphone Stand & Controller Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$15.98</span>
+            <span class="current-price">$14.9</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0BCFCKNLL" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.16</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61TFEGpJ-HL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Gaming Accessories Organizer with Headphone Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Gaming Accessories Organizer with Headphone Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$29.99</span>
+            <span class="current-price">$24.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0CZ3LKLFB" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.33</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61h15vfDLvL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="OCCdesign Headset Stand">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">OCCdesign Headset Stand</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$14.99</span>
+            <span class="current-price">$9.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0B1CT1PW2" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71PPp9qElML._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="KAFRI RGB Headphone Stand with Wireless Charger">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KAFRI RGB Headphone Stand with Wireless Charger</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$11.99</span>
+            <span class="current-price">$11.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B09HXHKB96" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/51zZCFvMfKL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="4PCS Video Game Controller Keychains">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">4PCS Video Game Controller Keychains</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$6.29</span>
+            <span class="current-price">$6.29</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0DYTBFQ6N" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.1</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vZlyKdiVL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Ponkor Rechargeable Battery Pack for Xbox">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Ponkor Rechargeable Battery Pack for Xbox</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$18.99</span>
+            <span class="current-price">$17.09</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B07DPNYGST" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vTFqE+AsL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="RGB Headset Stand with 9 Light Modes">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">RGB Headset Stand with 9 Light Modes</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$19.99</span>
+            <span class="current-price">$19.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0FY5WRZCM" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.07</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/41Qrn438nJL._SX342_SY445_QL70_FMwebp_.jpg" alt="KDD Headphone Stand & Controller Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KDD Headphone Stand & Controller Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$15.98</span>
+            <span class="current-price">$14.9</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0BCFCKNLL" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.16</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61TFEGpJ-HL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Gaming Accessories Organizer with Headphone Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Gaming Accessories Organizer with Headphone Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$29.99</span>
+            <span class="current-price">$24.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0CZ3LKLFB" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.33</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61h15vfDLvL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="OCCdesign Headset Stand">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">OCCdesign Headset Stand</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$14.99</span>
+            <span class="current-price">$9.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0B1CT1PW2" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71PPp9qElML._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="KAFRI RGB Headphone Stand with Wireless Charger">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KAFRI RGB Headphone Stand with Wireless Charger</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$11.99</span>
+            <span class="current-price">$11.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B09HXHKB96" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/51zZCFvMfKL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="4PCS Video Game Controller Keychains">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">4PCS Video Game Controller Keychains</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$6.29</span>
+            <span class="current-price">$6.29</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0DYTBFQ6N" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.1</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vZlyKdiVL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Ponkor Rechargeable Battery Pack for Xbox">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Ponkor Rechargeable Battery Pack for Xbox</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$18.99</span>
+            <span class="current-price">$17.09</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B07DPNYGST" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vTFqE+AsL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="RGB Headset Stand with 9 Light Modes">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">RGB Headset Stand with 9 Light Modes</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$19.99</span>
+            <span class="current-price">$19.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0FY5WRZCM" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.07</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/41Qrn438nJL._SX342_SY445_QL70_FMwebp_.jpg" alt="KDD Headphone Stand & Controller Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KDD Headphone Stand & Controller Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$15.98</span>
+            <span class="current-price">$14.9</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0BCFCKNLL" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.16</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61TFEGpJ-HL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Gaming Accessories Organizer with Headphone Holder">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Gaming Accessories Organizer with Headphone Holder</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$29.99</span>
+            <span class="current-price">$24.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0CZ3LKLFB" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.33</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/61h15vfDLvL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="OCCdesign Headset Stand">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">OCCdesign Headset Stand</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$14.99</span>
+            <span class="current-price">$9.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0B1CT1PW2" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71PPp9qElML._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="KAFRI RGB Headphone Stand with Wireless Charger">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">KAFRI RGB Headphone Stand with Wireless Charger</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$11.99</span>
+            <span class="current-price">$11.99</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B09HXHKB96" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-50%</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/51zZCFvMfKL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="4PCS Video Game Controller Keychains">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">4PCS Video Game Controller Keychains</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$6.29</span>
+            <span class="current-price">$6.29</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B0DYTBFQ6N" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="card" data-tags="accesorios">
+      <span class="platform-tag amazon">Amazon</span>
+      <span class="badge-discount">-0.1</span>
+
+      <div class="img-container">
+        <img src="https://m.media-amazon.com/images/I/71vZlyKdiVL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Ponkor Rechargeable Battery Pack for Xbox">
+      </div>
+
+      <div class="card-body">
+        <div>
+          <div class="tags">
+            <span class="tag">accesorios</span>
+          </div>
+          <h2 class="title">Ponkor Rechargeable Battery Pack for Xbox</h2>
+        </div>
+        <div>
+          <div class="price-container">
+            <span class="old-price">$18.99</span>
+            <span class="current-price">$17.09</span>
+          </div>
+          <a href="https://www.amazon.com/dp/B07DPNYGST" class="btn" target="_blank">Ver Oferta</a>
+        </div>
+      </div>
     </div>
   
     </div>
