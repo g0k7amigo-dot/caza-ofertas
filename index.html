@@ -3,30 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CazadorOfertas | Las Mejores Promociones</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <title>CazadorOfertas | Las Mejores Promociones Colombia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #0f172a; }
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; min-height: 100vh; }
 
-    header { background-color: #0f172a; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-    .logo { font-size: 1.4rem; font-weight: 800; color: #ffffff; text-decoration: none; }
+    /* Cabecera Principal */
+    header { background-color: #0f172a; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 1.4rem; font-weight: 800; color: #ffffff; text-decoration: none; letter-spacing: -0.5px; }
     .logo span { color: #f59e0b; }
 
-    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
-    .filter-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 7px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; cursor: pointer; transition: all 0.2s ease; text-transform: capitalize; }
-    .filter-btn:hover, .filter-btn.active { background: #f59e0b; color: #0f172a; border-color: #f59e0b; font-weight: 700; }
+    /* Barra de Disclaimer */
+    .disclaimer { background: #e2e8f0; text-align: center; padding: 8px 16px; font-size: 0.78rem; color: #475569; font-weight: 600; border-bottom: 1px solid #cbd5e1; }
 
-    .disclaimer { background: #e2e8f0; text-align: center; padding: 8px 16px; font-size: 0.78rem; color: #475569; font-weight: 600; }
-
-    main { max-width: 1200px; margin: 24px auto; padding: 0 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    /* Contenedor del Carrusel de Categorías (Estilo Temu) */
+    .carousel-section { background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 10px 16px; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .carousel-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; position: relative; }
     
-    .card { background: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #e2e8f0; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-    .card.hidden { display: none; }
+    .carousel-track-wrapper { overflow-x: auto; scroll-behavior: smooth; display: flex; gap: 8px; padding: 4px 0; width: 100%; -ms-overflow-style: none; scrollbar-width: none; }
+    .carousel-track-wrapper::-webkit-scrollbar { display: none; }
+
+    /* Botones de Flecha para PC */
+    .carousel-arrow { background: #ffffff; border: 1px solid #cbd5e1; color: #334155; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.12); z-index: 10; transition: all 0.2s ease; flex-shrink: 0; }
+    .carousel-arrow:hover { background: #f1f5f9; color: #0f172a; border-color: #94a3b8; transform: scale(1.05); }
+    .carousel-arrow.left { margin-right: 8px; }
+    .carousel-arrow.right { margin-left: 8px; }
+
+    /* Chips/Botones de Categoría */
+    .filter-btn { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; color: #475569; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; flex-shrink: 0; user-select: none; }
+    .filter-btn:hover { background: #e2e8f0; color: #0f172a; }
+    .filter-btn.active { background: #0f172a; color: #ffffff; border-color: #0f172a; font-weight: 700; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25); }
+
+    /* Barra Secundaria para Subcategorías / Filtro Específico */
+    .subfilters-container { max-width: 1200px; margin: 12px auto 0; padding: 0 20px; display: none; gap: 8px; flex-wrap: wrap; }
+    .subfilters-container.visible { display: flex; }
+    .sub-filter-btn { background: #fff; border: 1px dashed #cbd5e1; padding: 5px 12px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; color: #64748b; cursor: pointer; transition: all 0.2s ease; }
+    .sub-filter-btn:hover, .sub-filter-btn.active { background: #f59e0b; color: #0f172a; border-color: #f59e0b; font-weight: 700; }
+
+    /* Rejilla de Productos */
+    main { max-width: 1200px; margin: 24px auto; padding: 0 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+
+    /* Estilo de Tarjetas */
+    .card { background: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #e2e8f0; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .card.hidden { display: none !important; }
     .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
 
-    .platform-tag { position: absolute; top: 12px; left: 12px; font-size: 0.68rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; z-index: 3; }
+    .platform-tag { position: absolute; top: 12px; left: 12px; font-size: 0.68rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; z-index: 3; }
     .platform-tag.amazon { background-color: #232f3e; color: #ff9900; }
     .platform-tag.mercadolibre { background-color: #ffe600; color: #2d3277; }
 
@@ -35,38 +59,51 @@
     .img-container { height: 200px; width: 100%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 16px; border-bottom: 1px solid #f1f5f9; position: relative; overflow: hidden; }
     .card img { max-height: 100%; max-width: 100%; object-fit: contain; }
 
-    .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+    .card-body { padding: 16px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
     .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
-    .tag { background: #fef3c7; color: #b45309; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
-    .title { font-size: 0.95rem; font-weight: 700; color: #1e293b; line-height: 1.4; margin-bottom: 8px; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-    
+    .tag { background: #fef3c7; color: #b45309; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+    .title { font-size: 0.92rem; font-weight: 700; color: #1e293b; line-height: 1.4; margin-bottom: 8px; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
     .price-container { margin-bottom: 14px; display: flex; align-items: baseline; gap: 8px; }
-    .old-price { font-size: 0.85rem; color: #94a3b8; text-decoration: line-through; }
-    .current-price { font-size: 1.35rem; font-weight: 800; color: #0f172a; }
-    
-    .btn { display: block; text-align: center; background-color: #f59e0b; color: #0f172a; text-decoration: none; padding: 11px; border-radius: 8px; font-weight: 800; font-size: 0.95rem; transition: background-color 0.2s ease; box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2); }
+    .old-price { font-size: 0.82rem; color: #94a3b8; text-decoration: line-through; }
+    .current-price { font-size: 1.3rem; font-weight: 800; color: #0f172a; }
+
+    .btn { display: block; text-align: center; background-color: #f59e0b; color: #0f172a; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: 800; font-size: 0.9rem; transition: background-color 0.2s ease; box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2); }
     .btn:hover { background-color: #d97706; color: #ffffff; }
+
+    /* Mensaje de sin resultados */
+    .no-results { display: none; text-align: center; grid-column: 1 / -1; padding: 40px 20px; color: #64748b; font-weight: 600; }
+    .no-results.visible { display: block; }
   </style>
 </head>
 <body>
 
   <header>
-    <a href="#" class="logo">Cazador<span>Ofertas</span></a>
-    <!-- Botones inyectados dinámicamente -->
-    <div class="filters">
-      <button class="filter-btn active" data-filter="all">Todos</button><button class="filter-btn" data-filter="tecnología">Tecnología</button><button class="filter-btn" data-filter="cámaras de seguridad">Cámaras de seguridad</button>
-    </div>
+    <a href="#" class="logo">Cazador<span>Ofertas</span> 🇨🇴</a>
   </header>
 
   <div class="disclaimer">
-    ℹ️ Precios de referencia. El valor final y los costos de envío pueden variar en Amazon o Mercado Libre según tu ciudad o país.
+    ℹ️ Precios de referencia en COP/USD. El valor final y envío pueden variar según tu ciudad en Colombia.
   </div>
 
+  <!-- Carrusel de Categorías Generales (Estilo Temu) -->
+  <section class="carousel-section">
+    <div class="carousel-container">
+      <button class="carousel-arrow left" id="scroll-left" aria-label="Anterior">&lt;</button>
+      <div class="carousel-track-wrapper" id="carousel-track">
+        <button class="filter-btn active" data-filter="all" data-cat-type="all">✨ Todos</button><div class="main-categories" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;"><button class="filter-btn active" data-filter-gen="all">Todas las secciones</button><button class="filter-btn" data-filter-gen="tecnología">Tecnología</button></div><div class="sub-categories" style="display: flex; gap: 6px; flex-wrap: wrap;"><button class="filter-chip active" data-filter-spec="all">Todos los productos</button><button class="filter-chip" data-filter-spec="cámaras de seguridad">Cámaras de Seguridad</button><button class="filter-chip" data-filter-spec="cámaras de video">Cámaras de Video</button><button class="filter-chip" data-filter-spec="cámaras digitales">Cámaras Digitales</button></div>
+      </div>
+      <button class="carousel-arrow right" id="scroll-right" aria-label="Siguiente">&gt;</button>
+    </div>
+  </section>
+
+  <!-- Sub-filtros dinámicos (si existen categorías específicas) -->
+  <div class="subfilters-container" id="subfilters-bar"></div>
+
   <main>
-    <!-- Tarjetas de productos inyectadas sin duplicados -->
     <div class="grid" id="product-container">
       
-  <div class="card" data-tags="tecnología cámaras de seguridad">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-27%</span>
 
@@ -92,7 +129,7 @@
     </div>
   </div>
 
-  <div class="card" data-tags="tecnología cámaras de seguridad">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-46%</span>
 
@@ -118,7 +155,7 @@
     </div>
   </div>
 
-  <div class="card" data-tags="tecnología cámaras de seguridad">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-46%</span>
 
@@ -144,7 +181,7 @@
     </div>
   </div>
 
-  <div class="card" data-tags="tecnología cámaras de seguridad">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-21%</span>
 
@@ -170,7 +207,7 @@
     </div>
   </div>
 
-  <div class="card" data-tags="tecnología cámaras de seguridad">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-30%</span>
 
@@ -196,7 +233,7 @@
     </div>
   </div>
 
-  <div class="card" data-tags="tecnología cámaras de seguridad">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-45%</span>
 
@@ -222,7 +259,7 @@
     </div>
   </div>
 
-  <div class="card" data-tags="tecnología cámaras de seguridad">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-42%</span>
 
@@ -248,28 +285,279 @@
     </div>
   </div>
 
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de video">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-20%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/71C6TFutbeL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="kimire Video Camera Camcorder Digital Camera Recorder Full HD 1080P 15FPS 24MP 3.0 Inch 270 Degree Rotation LCD 16X Digital Zoom Camcorder Camera with 2 Batteries">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Video</span>
+        </div>
+        <h2 class="title">kimire Video Camera Camcorder Digital Camera Recorder Full HD 1080P 15FPS 24MP 3.0 Inch 270 Degree Rotation LCD 16X Digital Zoom Camcorder Camera with 2 Batteries</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$65.99</span>
+          <span class="current-price">$52.74</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B08K7HFMX4" class="btn" target="_blank">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-20%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/715EjAhP6JL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="Digital Camera, FHD 1080P Point and Shoot Camera for Kids Teens, 32GB Card">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
+        </div>
+        <h2 class="title">Digital Camera, FHD 1080P Point and Shoot Camera for Kids Teens, 32GB Card</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$49.99</span>
+          <span class="current-price">$39.98</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0DZCFJXH9" class="btn" target="_blank">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-26%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/81-6GmMJVsL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="8K Digital Cameras for Photography 88MP WiFi UHD Autofocus Vlogging Camera">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
+        </div>
+        <h2 class="title">8K Digital Cameras for Photography 88MP WiFi UHD Autofocus Vlogging Camera</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$159.99</span>
+          <span class="current-price">$118.38</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0HBQYTB5Z" class="btn" target="_blank">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-20%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/71IlU7w5rPL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="Lecran Digital Camera, FHD 1080P Point and Shoot Camera for Kids Teens Pink">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
+        </div>
+        <h2 class="title">Lecran Digital Camera, FHD 1080P Point and Shoot Camera for Kids Teens Pink</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$49.99</span>
+          <span class="current-price">$39.98</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0BN3SZRRC" class="btn" target="_blank">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-39%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/71aUWyvyetL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="Digital Camera 4K for Kids - 48MP Autofocus Vlogging Camera with 32GB Card, 16X Zoom, Anti-Shake, Compact Point and Shoot Camera for Teens Beginners, Birthday Gift Black">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
+        </div>
+        <h2 class="title">Digital Camera 4K for Kids - 48MP Autofocus Vlogging Camera with 32GB Card, 16X Zoom, Anti-Shake, Compact Point and Shoot Camera for Teens Beginners, Birthday Gift Black</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$69.99</span>
+          <span class="current-price">$42.97</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0H4GPFJGW" class="btn" target="_blank">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-40%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/71s5fHoHpUL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="5K 80MP Wi-Fi Digital Camera for Photography with 3" Flip Screen Autofoucs">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
+        </div>
+        <h2 class="title">5K 80MP Wi-Fi Digital Camera for Photography with 3" Flip Screen Autofoucs</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$99.99</span>
+          <span class="current-price">$59.99</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0H9WYNFWR" class="btn" target="_blank">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-58%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/61LzSaT9CQL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Digital Camera, Pink Digital Camera for Teens Photograper, 50MP FHD 1080P Compact Camera with TF Card, 16X Zoom Anti-Shake, Webcam, Christmas Birthday Gifts for Girl Boys 3-12, 13-18 Years Old">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
+        </div>
+        <h2 class="title">Digital Camera, Pink Digital Camera for Teens Photograper, 50MP FHD 1080P Compact Camera with TF Card, 16X Zoom Anti-Shake, Webcam, Christmas Birthday Gifts for Girl Boys 3-12, 13-18 Years Old</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$33.99</span>
+          <span class="current-price">$14.44</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0DST71JL6" class="btn" target="_blank">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+      <div class="no-results" id="no-results">
+        🔍 No se encontraron ofertas en esta categoría por el momento.
+      </div>
     </div>
   </main>
 
   <script>
-    document.addEventListener('click', (e) => {
-      const button = e.target.closest('.filter-btn');
-      if (!button) return;
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Control del Carrusel Horizontal (Flechas)
+      const track = document.getElementById('carousel-track');
+      const btnLeft = document.getElementById('scroll-left');
+      const btnRight = document.getElementById('scroll-right');
 
-      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
+      if (track && btnLeft && btnRight) {
+        btnLeft.addEventListener('click', () => {
+          track.scrollBy({ left: -240, behavior: 'smooth' });
+        });
+        btnRight.addEventListener('click', () => {
+          track.scrollBy({ left: 240, behavior: 'smooth' });
+        });
+      }
 
-      const filter = button.getAttribute('data-filter');
-      const cards = document.querySelectorAll('.card');
+      // State del filtro activo
+      let activeGeneralFilter = 'all';
+      let activeEspecificaFilter = 'all';
 
-      cards.forEach(card => {
-        const tags = card.getAttribute('data-tags') || '';
-        if (filter === 'all' || tags.includes(filter)) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
+      // 2. Lógica de Filtrado Dual (Categoría General + Específica)
+      const filterCards = () => {
+        const cards = document.querySelectorAll('.card');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+          const catGeneral = (card.getAttribute('data-cat-general') || card.getAttribute('data-tags') || '').toLowerCase();
+          const catEspecifica = (card.getAttribute('data-cat-especifica') || '').toLowerCase();
+
+          const matchGeneral = (activeGeneralFilter === 'all') || catGeneral.includes(activeGeneralFilter.toLowerCase());
+          const matchEspecifica = (activeEspecificaFilter === 'all') || catEspecifica.includes(activeEspecificaFilter.toLowerCase());
+
+          if (matchGeneral && matchEspecifica) {
+            card.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        // Mostrar u ocultar mensaje de "No hay resultados"
+        const noResultsMsg = document.getElementById('no-results');
+        if (noResultsMsg) {
+          if (visibleCount === 0) {
+            noResultsMsg.classList.add('visible');
+          } else {
+            noResultsMsg.classList.remove('visible');
+          }
         }
-      });
+      };
+
+      // 3. Event Listener en Botones de Categorías Generales
+      const trackWrapper = document.getElementById('carousel-track');
+      if (trackWrapper) {
+        trackWrapper.addEventListener('click', (e) => {
+          const button = e.target.closest('.filter-btn');
+          if (!button) return;
+
+          // Marcar botón activo visualmente
+          document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+
+          // Obtener valor del filtro
+          const filterValue = button.getAttribute('data-filter') || button.getAttribute('data-cat-general') || 'all';
+          activeGeneralFilter = filterValue;
+          activeEspecificaFilter = 'all'; // Reset sub-filtro al cambiar categoría principal
+
+          filterCards();
+        });
+      }
+
+      // 4. Soporte para Sub-filtros (si los botones tienen atributos específicos)
+      const subfiltersBar = document.getElementById('subfilters-bar');
+      if (subfiltersBar) {
+        subfiltersBar.addEventListener('click', (e) => {
+          const subBtn = e.target.closest('.sub-filter-btn');
+          if (!subBtn) return;
+
+          document.querySelectorAll('.sub-filter-btn').forEach(btn => btn.classList.remove('active'));
+          subBtn.classList.add('active');
+
+          activeEspecificaFilter = subBtn.getAttribute('data-filter') || 'all';
+          filterCards();
+        });
+      }
     });
   </script>
 
