@@ -1,114 +1,403 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CazadorOfertas | Las Mejores Promociones Colombia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; min-height: 100vh; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cazador de Ofertas - Colombia</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
 
-    /* Cabecera Principal */
-    header { background-color: #0f172a; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); position: sticky; top: 0; z-index: 100; }
-    .logo { font-size: 1.4rem; font-weight: 800; color: #ffffff; text-decoration: none; letter-spacing: -0.5px; }
-    .logo span { color: #f59e0b; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* Barra de Disclaimer */
-    .disclaimer { background: #e2e8f0; text-align: center; padding: 8px 16px; font-size: 0.78rem; color: #475569; font-weight: 600; border-bottom: 1px solid #cbd5e1; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 0;
+            margin: 0;
+        }
 
-    /* Contenedor del Carrusel de Categorías (Estilo Temu) */
-    .carousel-section { background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 10px 16px; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .carousel-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; position: relative; }
-    
-    .carousel-track-wrapper { overflow-x: auto; scroll-behavior: smooth; display: flex; gap: 8px; padding: 4px 0; width: 100%; -ms-overflow-style: none; scrollbar-width: none; }
-    .carousel-track-wrapper::-webkit-scrollbar { display: none; }
+        header {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    /* Botones de Flecha para PC */
-    .carousel-arrow { background: #ffffff; border: 1px solid #cbd5e1; color: #334155; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.12); z-index: 10; transition: all 0.2s ease; flex-shrink: 0; }
-    .carousel-arrow:hover { background: #f1f5f9; color: #0f172a; border-color: #94a3b8; transform: scale(1.05); }
-    .carousel-arrow.left { margin-right: 8px; }
-    .carousel-arrow.right { margin-left: 8px; }
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
 
-    /* Chips/Botones de Categoría */
-    .filter-btn { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; color: #475569; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; flex-shrink: 0; user-select: none; }
-    .filter-btn:hover { background: #e2e8f0; color: #0f172a; }
-    .filter-btn.active { background: #0f172a; color: #ffffff; border-color: #0f172a; font-weight: 700; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25); }
+        .logo span {
+            color: var(--accent);
+        }
 
-    /* Barra Secundaria para Subcategorías / Filtro Específico */
-    .subfilters-container { max-width: 1200px; margin: 12px auto 0; padding: 0 20px; display: none; gap: 8px; flex-wrap: wrap; }
-    .subfilters-container.visible { display: flex; }
-    .sub-filter-btn { background: #fff; border: 1px dashed #cbd5e1; padding: 5px 12px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; color: #64748b; cursor: pointer; transition: all 0.2s ease; }
-    .sub-filter-btn:hover, .sub-filter-btn.active { background: #f59e0b; color: #0f172a; border-color: #f59e0b; font-weight: 700; }
+        .banner-alert {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            text-align: center;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #bae6fd;
+        }
 
-    /* Rejilla de Productos */
-    main { max-width: 1200px; margin: 24px auto; padding: 0 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        /* --- CONTENEDOR DE NAVEGACIÓN Y FILTROS --- */
+        .nav-wrapper {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
 
-    /* Estilo de Tarjetas */
-    .card { background: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #e2e8f0; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-    .card.hidden { display: none !important; }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
+        /* CARRUSEL DE CATEGORÍAS GENERALES */
+        .carousel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 12px 45px;
+        }
 
-    .platform-tag { position: absolute; top: 12px; left: 12px; font-size: 0.68rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; z-index: 3; }
-    .platform-tag.amazon { background-color: #232f3e; color: #ff9900; }
-    .platform-tag.mercadolibre { background-color: #ffe600; color: #2d3277; }
+        .carousel-track {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            white-space: nowrap;
+        }
 
-    .badge-discount { position: absolute; top: 12px; right: 12px; background-color: #ef4444; color: #ffffff; font-size: 0.78rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4); z-index: 3; }
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
 
-    .img-container { height: 200px; width: 100%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 16px; border-bottom: 1px solid #f1f5f9; position: relative; overflow: hidden; }
-    .card img { max-height: 100%; max-width: 100%; object-fit: contain; }
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+            font-weight: bold;
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
 
-    .card-body { padding: 16px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
-    .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
-    .tag { background: #fef3c7; color: #b45309; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
-    .title { font-size: 0.92rem; font-weight: 700; color: #1e293b; line-height: 1.4; margin-bottom: 8px; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .nav-arrow:hover {
+            background: var(--bg-color);
+            border-color: #cbd5e1;
+        }
 
-    .price-container { margin-bottom: 14px; display: flex; align-items: baseline; gap: 8px; }
-    .old-price { font-size: 0.82rem; color: #94a3b8; text-decoration: line-through; }
-    .current-price { font-size: 1.3rem; font-weight: 800; color: #0f172a; }
+        .nav-arrow.left { left: 8px; }
+        .nav-arrow.right { right: 8px; }
 
-    .btn { display: block; text-align: center; background-color: #f59e0b; color: #0f172a; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: 800; font-size: 0.9rem; transition: background-color 0.2s ease; box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2); }
-    .btn:hover { background-color: #d97706; color: #ffffff; }
+        /* Estilo Botones Categoría General */
+        .filter-btn {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.25s ease;
+        }
 
-    /* Mensaje de sin resultados */
-    .no-results { display: none; text-align: center; grid-column: 1 / -1; padding: 40px 20px; color: #64748b; font-weight: 600; }
-    .no-results.visible { display: block; }
-  </style>
+        .filter-btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        .filter-btn.active {
+            background-color: #0f172a;
+            color: #ffffff;
+            border-color: #0f172a;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25);
+        }
+
+        /* BARRA SUB-CATEGORÍAS (CON ANIMACIÓN DE DESPLIEGUE) */
+        .sub-categories-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, opacity 0.35s ease, padding 0.35s ease;
+            background-color: #fafafa;
+        }
+
+        .sub-categories-wrapper.open {
+            max-height: 120px;
+            opacity: 1;
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sub-categories-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .sub-categories-track {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            background-color: #ffffff;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .filter-chip:hover {
+            background-color: #f1f5f9;
+        }
+
+        .filter-chip.active {
+            background-color: #0284c7;
+            color: #ffffff;
+            border-color: #0284c7;
+        }
+
+        /* --- GRILLA DE PRODUCTOS --- */
+        .main-container {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        .badge-discount {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ef4444;
+            color: white;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 6px;
+            z-index: 2;
+        }
+
+        .platform-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #0f172a;
+            color: white;
+            padding: 4px 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            border-radius: 6px;
+            z-index: 2;
+            text-transform: uppercase;
+        }
+
+        .img-container {
+            width: 100%;
+            height: 190px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .img-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .card-body {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .tags {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #f1f5f9;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.35;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .current-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #16a34a;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: var(--accent);
+            color: #0f172a;
+            text-align: center;
+            padding: 9px 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <a href="#" class="logo">Cazador<span>Ofertas</span> 🇨🇴</a>
-  </header>
+    <header>
+        <div class="logo">Cazador<span>Ofertas</span> 🇨🇴</div>
+    </header>
 
-  <div class="disclaimer">
-    ℹ️ Precios de referencia en COP/USD. El valor final y envío pueden variar según tu ciudad en Colombia.
-  </div>
-
-  <!-- Carrusel de Categorías Generales (Estilo Temu) -->
-  <section class="carousel-section">
-    <div class="carousel-container">
-      <button class="carousel-arrow left" id="scroll-left" aria-label="Anterior">&lt;</button>
-      <div class="carousel-track-wrapper" id="carousel-track">
-        <button class="filter-btn active" data-filter="all" data-cat-type="all">✨ Todos</button><div class="main-categories" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;"><button class="filter-btn active" data-filter-gen="all">Todas las secciones</button><button class="filter-btn" data-filter-gen="tecnología">Tecnología</button><button class="filter-btn" data-filter-gen="hogar">Hogar</button></div><div class="sub-categories" style="display: flex; gap: 6px; flex-wrap: wrap;"><button class="filter-chip active" data-filter-spec="all">Todos los productos</button><button class="filter-chip" data-filter-spec="cámaras de seguridad">Cámaras de Seguridad</button><button class="filter-chip" data-filter-spec="cámaras de video">Cámaras de Video</button><button class="filter-chip" data-filter-spec="cámaras digitales">Cámaras Digitales</button><button class="filter-chip" data-filter-spec="muebles de exterior">Muebles de Exterior</button></div>
-      </div>
-      <button class="carousel-arrow right" id="scroll-right" aria-label="Siguiente">&gt;</button>
+    <div class="banner-alert">
+        ℹ️ Precios de referencia. Envíos confirmados disponibles para Colombia.
     </div>
-  </section>
 
-  <!-- Sub-filtros dinámicos (si existen categorías específicas) -->
-  <div class="subfilters-container" id="subfilters-bar"></div>
+    <!-- NAVEGACIÓN Y FILTROS -->
+    <div class="nav-wrapper">
+        <!-- CARRUSEL PRINCIPAL (CATEGORÍAS GENERALES) -->
+        <div class="carousel-container">
+            <button class="nav-arrow left" id="arrow-left">&lt;</button>
+            
+            <div class="carousel-track" id="main-carousel">
+                <div class="main-categories" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;"><button class="filter-btn active" data-filter-gen="all">Todas las secciones</button><button class="filter-btn" data-filter-gen="tecnología">Tecnología</button><button class="filter-btn" data-filter-gen="hogar">Hogar</button></div><div class="sub-categories" style="display: flex; gap: 6px; flex-wrap: wrap;"><button class="filter-chip active" data-filter-spec="all">Todos los productos</button><button class="filter-chip" data-filter-spec="cámaras de seguridad">Cámaras de Seguridad</button><button class="filter-chip" data-filter-spec="cámaras de video">Cámaras de Video</button><button class="filter-chip" data-filter-spec="cámaras digitales">Cámaras Digitales</button><button class="filter-chip" data-filter-spec="muebles de exterior">Muebles de Exterior</button></div>
+            </div>
 
-  <main>
-    <div class="grid" id="product-container">
-      
+            <button class="nav-arrow right" id="arrow-right">&gt;</button>
+        </div>
+
+        <!-- BARRA DESPLEGABLE DE SUBCATEGORÍAS -->
+        <div class="sub-categories-wrapper" id="sub-wrapper">
+            <div class="sub-categories-title">Tipo de producto</div>
+            <div class="sub-categories-track" id="sub-track">
+                <!-- Chips rellenados dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- GRILLA DE PRODUCTOS -->
+    <div class="main-container">
+        <div class="cards-grid" id="cards-container">
+            
   <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-27%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71LnO8I05DL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="AOQEE 2K Cámaras de Seguridad para Hogar, Interior/Exterior, Color Completo, C1 2 Pack">
+      <img src="https://m.media-amazon.com/images/I/71LnO8I05DL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="AOQEE 2K Cámaras de seguridad para hogar interior/exterior, color completo, C1 (2 unidades)">
     </div>
 
     <div class="card-body">
@@ -117,7 +406,7 @@
           <span class="tag">Tecnología</span>
           <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
         </div>
-        <h2 class="title">AOQEE 2K Cámaras de Seguridad para Hogar, Interior/Exterior, Color Completo, C1 2 Pack</h2>
+        <h2 class="title">AOQEE 2K Cámaras de seguridad para hogar interior/exterior, color completo, C1 (2 unidades)</h2>
       </div>
       <div>
         <div class="price-container">
@@ -134,7 +423,7 @@
     <span class="badge-discount">-46%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/315e2KAZnpL._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Mini 2K+ (Modelo Más Nuevo) – Cámara de Seguridad Interior y para Mascotas con Resolución 2K, Visión Nocturna, Audio Mejorado, Detección de Movimiento – 2 Cámaras (Negra)">
+      <img src="https://m.media-amazon.com/images/I/315e2KAZnpL._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (2 cámaras, negro)">
     </div>
 
     <div class="card-body">
@@ -143,7 +432,7 @@
           <span class="tag">Tecnología</span>
           <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
         </div>
-        <h2 class="title">Blink Mini 2K+ (Modelo Más Nuevo) – Cámara de Seguridad Interior y para Mascotas con Resolución 2K, Visión Nocturna, Audio Mejorado, Detección de Movimiento – 2 Cámaras (Negra)</h2>
+        <h2 class="title">Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (2 cámaras, negro)</h2>
       </div>
       <div>
         <div class="price-container">
@@ -160,7 +449,7 @@
     <span class="badge-discount">-46%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/31+6KY5zR8L._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Mini 2K+ (Modelo Más Nuevo) – Cámara de Seguridad Interior y para Mascotas con Resolución 2K, Visión Nocturna, Audio Mejorado, Detección de Movimiento – 2 Cámaras (Blanca)">
+      <img src="https://m.media-amazon.com/images/I/31+6KY5zR8L._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (2 cámaras, blanco)">
     </div>
 
     <div class="card-body">
@@ -169,7 +458,7 @@
           <span class="tag">Tecnología</span>
           <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
         </div>
-        <h2 class="title">Blink Mini 2K+ (Modelo Más Nuevo) – Cámara de Seguridad Interior y para Mascotas con Resolución 2K, Visión Nocturna, Audio Mejorado, Detección de Movimiento – 2 Cámaras (Blanca)</h2>
+        <h2 class="title">Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (2 cámaras, blanco)</h2>
       </div>
       <div>
         <div class="price-container">
@@ -186,7 +475,7 @@
     <span class="badge-discount">-10%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71wohIrQdeL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="GNCC 5G Cámaras de Seguridad para Hogar Interior, para Mascotas/Bebés con App Móvil, 4 Unidades">
+      <img src="https://m.media-amazon.com/images/I/71wohIrQdeL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="GNCC Cámaras 5G para seguridad en interiores con app para teléfono, 4 unidades (para mascotas/niños/bebés)">
     </div>
 
     <div class="card-body">
@@ -195,7 +484,7 @@
           <span class="tag">Tecnología</span>
           <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
         </div>
-        <h2 class="title">GNCC 5G Cámaras de Seguridad para Hogar Interior, para Mascotas/Bebés con App Móvil, 4 Unidades</h2>
+        <h2 class="title">GNCC Cámaras 5G para seguridad en interiores con app para teléfono, 4 unidades (para mascotas/niños/bebés)</h2>
       </div>
       <div>
         <div class="price-container">
@@ -264,7 +553,7 @@
     <span class="badge-discount">-45%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/41HMvskxwtL._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Outdoor 4 – Cámara de Seguridad Inteligente Inalámbrica, Batería de Dos Años, Vista en Vivo en HD 1080p día y Noche por Infrarrojos, Conversación Bidireccional. Incluye Módulo Sync Core – Sistema de 3 Cámaras">
+      <img src="https://m.media-amazon.com/images/I/41HMvskxwtL._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Outdoor 4 – Cámara de seguridad inteligente inalámbrica con batería de dos años, visión en vivo HD 1080p día/noche con infrarrojos y audio bidireccional. Incluye Sistema de Sincronización Core (3 cámaras)">
     </div>
 
     <div class="card-body">
@@ -273,7 +562,7 @@
           <span class="tag">Tecnología</span>
           <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
         </div>
-        <h2 class="title">Blink Outdoor 4 – Cámara de Seguridad Inteligente Inalámbrica, Batería de Dos Años, Vista en Vivo en HD 1080p día y Noche por Infrarrojos, Conversación Bidireccional. Incluye Módulo Sync Core – Sistema de 3 Cámaras</h2>
+        <h2 class="title">Blink Outdoor 4 – Cámara de seguridad inteligente inalámbrica con batería de dos años, visión en vivo HD 1080p día/noche con infrarrojos y audio bidireccional. Incluye Sistema de Sincronización Core (3 cámaras)</h2>
       </div>
       <div>
         <div class="price-container">
@@ -727,99 +1016,190 @@
     </div>
   </div>
 
-      <div class="no-results" id="no-results">
-        🔍 No se encontraron ofertas en esta categoría por el momento.
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-33%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/31iHRXUgIfL._SY300_SX300_QL70_FMwebp_.jpg" alt="Ring Floodlight Cam Wired Plus – Cámara de seguridad exterior con video HD 1080p y luces inundación activadas por movimiento (blanco)">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
+        </div>
+        <h2 class="title">Ring Floodlight Cam Wired Plus – Cámara de seguridad exterior con video HD 1080p y luces inundación activadas por movimiento (blanco)</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$179.99</span>
+          <span class="current-price">$119.99</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B08F6GPQQ7" class="btn" target="_blank">Ver Oferta</a>
       </div>
     </div>
-  </main>
+  </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Control del Carrusel Horizontal (Flechas)
-      const track = document.getElementById('carousel-track');
-      const btnLeft = document.getElementById('scroll-left');
-      const btnRight = document.getElementById('scroll-right');
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-45%</span>
 
-      if (track && btnLeft && btnRight) {
-        btnLeft.addEventListener('click', () => {
-          track.scrollBy({ left: -240, behavior: 'smooth' });
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/315e2KAZnpL._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (1 cámara, negro)">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
+        </div>
+        <h2 class="title">Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (1 cámara, negro)</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$39.99</span>
+          <span class="current-price">$21.99</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0F3BB8D37" class="btn" target="_blank">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-45%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/41HMvskxwtL._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Outdoor 4 – Cámara de seguridad inteligente inalámbrica con batería de dos años, visión en vivo HD 1080p día/noche con infrarrojos y audio bidireccional. Incluye Sistema de Sincronización Core (5 cámaras)">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
+        </div>
+        <h2 class="title">Blink Outdoor 4 – Cámara de seguridad inteligente inalámbrica con batería de dos años, visión en vivo HD 1080p día/noche con infrarrojos y audio bidireccional. Incluye Sistema de Sincronización Core (5 cámaras)</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$299.99</span>
+          <span class="current-price">$164.99</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0DHLTCYWH" class="btn" target="_blank">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+            <div class="no-results" id="no-results">No se encontraron productos en esta categoría.</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const track = document.getElementById('main-carousel');
+            const arrowLeft = document.getElementById('arrow-left');
+            const arrowRight = document.getElementById('arrow-right');
+            const subWrapper = document.getElementById('sub-wrapper');
+            const subTrack = document.getElementById('sub-track');
+            const cards = document.querySelectorAll('.card');
+            const noResults = document.getElementById('no-results');
+
+            // 1. FLECHAS DE DESPLAZAMIENTO DEL CARRUSEL
+            arrowLeft.addEventListener('click', () => track.scrollBy({ left: -200, behavior: 'smooth' }));
+            arrowRight.addEventListener('click', () => track.scrollBy({ left: 200, behavior: 'smooth' }));
+
+            // 2. EXTRAER SUBCATEGORÍAS DE LAS TARJETAS DEL DOM
+            const subCatMap = new Map();
+
+            cards.forEach(card => {
+                const gen = (card.getAttribute('data-cat-general') || '').trim().toLowerCase();
+                const spec = (card.getAttribute('data-cat-especifica') || '').trim();
+
+                if (gen && spec) {
+                    if (!subCatMap.has(gen)) {
+                        subCatMap.set(gen, new Set());
+                    }
+                    subCatMap.get(gen).add(spec);
+                }
+            });
+
+            let activeGen = 'all';
+            let activeSpec = 'all';
+
+            // 3. CAPTURAR CLICS EN CATEGORÍAS GENERALES Y SUBCATEGORÍAS
+            document.addEventListener('click', function(e) {
+                const btnGen = e.target.closest('[data-filter-gen]');
+                if (btnGen) {
+                    document.querySelectorAll('[data-filter-gen]').forEach(b => b.classList.remove('active'));
+                    btnGen.classList.add('active');
+
+                    activeGen = btnGen.getAttribute('data-filter-gen').toLowerCase();
+                    activeSpec = 'all';
+
+                    renderSubCategories(activeGen);
+                    filterCards();
+                }
+
+                const btnSpec = e.target.closest('[data-filter-spec]');
+                if (btnSpec) {
+                    document.querySelectorAll('[data-filter-spec]').forEach(b => b.classList.remove('active'));
+                    btnSpec.classList.add('active');
+
+                    activeSpec = btnSpec.getAttribute('data-filter-spec').toLowerCase();
+                    filterCards();
+                }
+            });
+
+            // 4. ANIMAR Y MOSTRAR / OCULTAR SUBCATEGORÍAS
+            function renderSubCategories(genCategory) {
+                subTrack.innerHTML = '';
+
+                if (genCategory === 'all' || !subCatMap.has(genCategory)) {
+                    subWrapper.classList.remove('open');
+                    return;
+                }
+
+                const specsSet = subCatMap.get(genCategory);
+                if (!specsSet || specsSet.size === 0) {
+                    subWrapper.classList.remove('open');
+                    return;
+                }
+
+                let html = '<button class="filter-chip active" data-filter-spec="all">Todos los productos</button>';
+                specsSet.forEach(spec => {
+                    html += '<button class="filter-chip" data-filter-spec="' + spec.toLowerCase() + '">' + spec + '</button>';
+                });
+
+                subTrack.innerHTML = html;
+                subWrapper.classList.add('open');
+            }
+
+            // 5. FILTRAR TARJETAS EN EL DOM
+            function filterCards() {
+                let visibleCount = 0;
+
+                cards.forEach(card => {
+                    const cardGen = (card.getAttribute('data-cat-general') || '').toLowerCase();
+                    const cardSpec = (card.getAttribute('data-cat-especifica') || '').toLowerCase();
+
+                    const matchGen = (activeGen === 'all' || cardGen === activeGen);
+                    const matchSpec = (activeSpec === 'all' || cardSpec === activeSpec);
+
+                    if (matchGen && matchSpec) {
+                        card.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
         });
-        btnRight.addEventListener('click', () => {
-          track.scrollBy({ left: 240, behavior: 'smooth' });
-        });
-      }
-
-      // State del filtro activo
-      let activeGeneralFilter = 'all';
-      let activeEspecificaFilter = 'all';
-
-      // 2. Lógica de Filtrado Dual (Categoría General + Específica)
-      const filterCards = () => {
-        const cards = document.querySelectorAll('.card');
-        let visibleCount = 0;
-
-        cards.forEach(card => {
-          const catGeneral = (card.getAttribute('data-cat-general') || card.getAttribute('data-tags') || '').toLowerCase();
-          const catEspecifica = (card.getAttribute('data-cat-especifica') || '').toLowerCase();
-
-          const matchGeneral = (activeGeneralFilter === 'all') || catGeneral.includes(activeGeneralFilter.toLowerCase());
-          const matchEspecifica = (activeEspecificaFilter === 'all') || catEspecifica.includes(activeEspecificaFilter.toLowerCase());
-
-          if (matchGeneral && matchEspecifica) {
-            card.classList.remove('hidden');
-            visibleCount++;
-          } else {
-            card.classList.add('hidden');
-          }
-        });
-
-        // Mostrar u ocultar mensaje de "No hay resultados"
-        const noResultsMsg = document.getElementById('no-results');
-        if (noResultsMsg) {
-          if (visibleCount === 0) {
-            noResultsMsg.classList.add('visible');
-          } else {
-            noResultsMsg.classList.remove('visible');
-          }
-        }
-      };
-
-      // 3. Event Listener en Botones de Categorías Generales
-      const trackWrapper = document.getElementById('carousel-track');
-      if (trackWrapper) {
-        trackWrapper.addEventListener('click', (e) => {
-          const button = e.target.closest('.filter-btn');
-          if (!button) return;
-
-          // Marcar botón activo visualmente
-          document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-          button.classList.add('active');
-
-          // Obtener valor del filtro
-          const filterValue = button.getAttribute('data-filter') || button.getAttribute('data-cat-general') || 'all';
-          activeGeneralFilter = filterValue;
-          activeEspecificaFilter = 'all'; // Reset sub-filtro al cambiar categoría principal
-
-          filterCards();
-        });
-      }
-
-      // 4. Soporte para Sub-filtros (si los botones tienen atributos específicos)
-      const subfiltersBar = document.getElementById('subfilters-bar');
-      if (subfiltersBar) {
-        subfiltersBar.addEventListener('click', (e) => {
-          const subBtn = e.target.closest('.sub-filter-btn');
-          if (!subBtn) return;
-
-          document.querySelectorAll('.sub-filter-btn').forEach(btn => btn.classList.remove('active'));
-          subBtn.classList.add('active');
-
-          activeEspecificaFilter = subBtn.getAttribute('data-filter') || 'all';
-          filterCards();
-        });
-      }
-    });
-  </script>
-
+    </script>
 </body>
 </html>
