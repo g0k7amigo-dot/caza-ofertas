@@ -1715,7 +1715,8 @@
 
                 let html = '<button class="filter-chip active" data-filter-spec="all">Todos los productos</button>';
                 specsSet.forEach(spec => {
-                    html += '<button class="filter-chip" data-filter-spec="' + spec.toLowerCase() + '">' + spec + '</button>';
+                    const specCapitalized = spec.charAt(0).toUpperCase() + spec.slice(1);
+                    html += '<button class="filter-chip" data-filter-spec="' + spec.toLowerCase() + '">' + specCapitalized + '</button>';
                 });
 
                 subTrack.innerHTML = html;
