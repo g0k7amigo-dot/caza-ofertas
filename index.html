@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cazador de Ofertas - Colombia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cazador de Ofertas - Los mejores descuentos</title>
     <style>
         :root {
             --primary: #0f172a;
@@ -17,1103 +16,520 @@
             --border-color: #e2e8f0;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
+        header { 
+            background-color: var(--primary); 
+            color: #ffffff; 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .logo { font-size: 1.4rem; font-weight: 800; }
+        .logo span { color: var(--accent); }
+
+        .banner-alert { 
+            background-color: #e0f2fe; 
+            color: #0369a1; 
+            text-align: center; 
+            padding: 8px 15px; 
+            font-size: 0.85rem; 
+            border-bottom: 1px solid #bae6fd; 
         }
 
-        header {
-            background-color: #0f172a;
-            color: #ffffff;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* --- NAVEGACIÓN Y CARRUSEL --- */
+        .nav-wrapper { 
+            background: #ffffff; 
+            border-bottom: 1px solid var(--border-color); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
         }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 800;
+        .carousel-container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            display: flex; 
+            align-items: center; 
+            position: relative; 
+            padding: 12px 45px; 
         }
-
-        .logo span {
-            color: var(--accent);
+        .carousel-track { 
+            display: flex; 
+            gap: 10px; 
+            overflow-x: auto; 
+            scroll-behavior: smooth; 
+            scrollbar-width: none; 
+            white-space: nowrap; 
+            -webkit-overflow-scrolling: touch;
         }
-
-        .banner-alert {
-            background-color: #e0f2fe;
-            color: #0369a1;
-            text-align: center;
-            padding: 8px 15px;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #bae6fd;
+        .carousel-track::-webkit-scrollbar { display: none; }
+        
+        .nav-arrow { 
+            position: absolute; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            width: 32px; 
+            height: 32px; 
+            background: #ffffff; 
+            border: 1px solid var(--border-color); 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08); 
+            z-index: 10; 
+            font-weight: bold; 
         }
-
-        /* --- CONTENEDOR DE NAVEGACIÓN --- */
-        .nav-wrapper {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-
-        /* CARRUSEL DE CATEGORÍAS GENERALES */
-        .carousel-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding: 12px 45px;
-        }
-
-        .carousel-track {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            scrollbar-width: none;
-            white-space: nowrap;
-        }
-
-        .carousel-track::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* OCULTAR CUALQUIER BOTÓN SECUNDARIO QUE VENGA DEL NODO 2 EN EL CARRUSEL PRINCIPAL */
-        .carousel-track .sub-categories,
-        .carousel-track [data-filter-spec] {
-            display: none !important;
-        }
-
-        .nav-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 32px;
-            height: 32px;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-            z-index: 10;
-            font-weight: bold;
-            color: var(--text-main);
-            transition: all 0.2s;
-        }
-
-        .nav-arrow:hover {
-            background: var(--bg-color);
-            border-color: #cbd5e1;
-            transform: translateY(-50%) scale(1.05);
-        }
-
         .nav-arrow.left { left: 8px; }
         .nav-arrow.right { right: 8px; }
 
-        /* Estilo Botones Categoría General */
-        .filter-btn {
-            background-color: #f1f5f9;
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.88rem;
-            font-weight: 600;
-            white-space: nowrap;
-            transition: all 0.2s ease;
+        .filter-btn { 
+            background-color: #f1f5f9; 
+            color: var(--text-main); 
+            border: 1px solid var(--border-color); 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-size: 0.88rem; 
+            font-weight: 600; 
+            white-space: nowrap; 
+            transition: all 0.2s; 
+        }
+        .filter-btn.active { 
+            background-color: var(--primary); 
+            color: #ffffff; 
+            border-color: var(--primary); 
         }
 
-        .filter-btn:hover {
-            background-color: #e2e8f0;
+        .sub-categories-wrapper { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            max-height: 0; 
+            opacity: 0; 
+            overflow: hidden; 
+            transition: all 0.3s ease; 
+            background: #f8fafc; 
+            border-top: 1px dashed var(--border-color); 
+        }
+        .sub-categories-wrapper.open { max-height: 140px; opacity: 1; padding: 14px 25px; }
+        .sub-header { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #0284c7; margin-bottom: 10px; }
+        .sub-categories-track { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-chip { 
+            background-color: #ffffff; 
+            color: #334155; 
+            border: 1px solid #cbd5e1; 
+            padding: 7px 16px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-size: 0.83rem; 
+            font-weight: 600; 
+        }
+        .filter-chip.active { background: #0284c7; color: #ffffff; border-color: #0284c7; }
+
+        /* --- GRILLA Y TARJETAS --- */
+        .main-container { max-width: 1200px; margin: 25px auto; padding: 0 15px; flex: 1; width: 100%; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color); 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            position: relative; 
+            transition: transform 0.2s; 
+        }
+        .card:hover { transform: translateY(-4px); }
+        .badge-discount { 
+            position: absolute; 
+            top: 10px; 
+            right: 10px; 
+            background: #ef4444; 
+            color: white; 
+            padding: 4px 8px; 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            border-radius: 6px; 
+            z-index: 2; 
+        }
+        .img-container { width: 100%; height: 190px; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 15px; }
+        .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .card-body { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+        .title { 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            margin-bottom: 12px; 
+            display: -webkit-box; 
+            -webkit-line-clamp: 2; 
+            -webkit-box-orient: vertical; 
+            overflow: hidden; 
+            line-height: 1.35; 
+        }
+        .price-container { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+        .old-price { text-decoration: line-through; color: var(--text-muted); font-size: 0.85rem; }
+        .current-price { font-size: 1.2rem; font-weight: 700; color: #16a34a; }
+        .btn { 
+            display: block; 
+            width: 100%; 
+            background-color: var(--accent); 
+            color: var(--primary); 
+            text-align: center; 
+            padding: 9px 0; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700; 
+        }
+        .btn:hover { background-color: var(--accent-hover); }
+
+        /* --- FOOTER Y AVISO LEGAL OBLIGATORIO AMAZON --- */
+        footer { 
+            background-color: var(--primary); 
+            color: #94a3b8; 
+            padding: 30px 20px; 
+            margin-top: 40px; 
+            font-size: 0.85rem; 
+            border-top: 1px solid #1e293b; 
+            text-align: center; 
+        }
+        .footer-content { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; }
+        .footer-links a { color: #cbd5e1; text-decoration: none; cursor: pointer; }
+        .footer-links a:hover { color: var(--accent); text-decoration: underline; }
+        .amazon-disclaimer { line-height: 1.5; color: #94a3b8; font-size: 0.8rem; }
+
+        /* --- MODAL POLÍTICAS Y TÉRMINOS --- */
+        .modal-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0, 0, 0, 0.6); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 1000; 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: all 0.3s ease; 
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-card { 
+            background: #ffffff; 
+            color: var(--text-main); 
+            width: 90%; 
+            max-width: 600px; 
+            padding: 30px; 
+            border-radius: 12px; 
+            position: relative; 
+            max-height: 80vh; 
+            overflow-y: auto; 
+            text-align: left; 
+        }
+        .modal-card h3 { margin-bottom: 15px; color: var(--primary); }
+        .modal-card p { margin-bottom: 12px; line-height: 1.6; color: #475569; font-size: 0.92rem; }
+        .close-modal { 
+            position: absolute; 
+            top: 15px; 
+            right: 20px; 
+            background: none; 
+            border: none; 
+            font-size: 1.5rem; 
+            cursor: pointer; 
+            color: var(--text-muted); 
         }
 
-        .filter-btn.active {
-            background-color: #0f172a;
-            color: #ffffff;
-            border-color: #0f172a;
-            box-shadow: 0 3px 8px rgba(15, 23, 42, 0.25);
-        }
+        /* =========================================================
+           REGLAS DE OPTIMIZACIÓN PARA MÓVILES (PANTALLAS < 600px)
+           ========================================================= */
+        @media (max-width: 600px) {
+            header { padding: 12px 15px; }
+            .logo { font-size: 1.2rem; }
+            .banner-alert { font-size: 0.78rem; padding: 6px 10px; }
 
-        /* --- BARRA SUBCATEGORÍAS (DISEÑO PREMIUM ANIMADO) --- */
-        .sub-categories-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        opacity 0.3s ease, 
-                        padding 0.3s ease;
-            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-            border-top: 1px dashed var(--border-color);
-        }
+            /* Carrusel Táctil Modo App (se ocultan las flechas para aprovechar espacio) */
+            .carousel-container { padding: 10px 12px; }
+            .nav-arrow { display: none !important; }
+            .filter-btn { padding: 6px 14px; font-size: 0.8rem; }
 
-        .sub-categories-wrapper.open {
-            max-height: 140px;
-            opacity: 1;
-            padding: 14px 25px;
-        }
+            .sub-categories-wrapper.open { padding: 10px 12px; }
+            .filter-chip { padding: 5px 12px; font-size: 0.78rem; }
 
-        .sub-header {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #0284c7;
-            margin-bottom: 10px;
-            letter-spacing: 0.6px;
-        }
+            /* Grilla de 2 columnas estilo Temu / AliExpress */
+            .main-container { padding: 0 10px; margin: 15px auto; }
+            .cards-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 10px; 
+            }
 
-        .sub-categories-track {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
+            /* Ajuste compacto de las tarjetas */
+            .card { border-radius: 8px; }
+            .badge-discount { top: 6px; right: 6px; font-size: 0.68rem; padding: 2px 5px; border-radius: 4px; }
+            .img-container { height: 130px; padding: 8px; }
+            .card-body { padding: 10px; }
+            .title { font-size: 0.8rem; margin-bottom: 8px; line-height: 1.3; -webkit-line-clamp: 2; }
+            .price-container { gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+            .old-price { font-size: 0.75rem; }
+            .current-price { font-size: 1.05rem; }
+            .btn { padding: 8px 0; font-size: 0.82rem; border-radius: 6px; }
 
-        .filter-chip {
-            background-color: #ffffff;
-            color: #334155;
-            border: 1px solid #cbd5e1;
-            padding: 7px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.83rem;
-            font-weight: 600;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        }
-
-        .filter-chip:hover {
-            background-color: #e0f2fe;
-            color: #0369a1;
-            border-color: #7dd3fc;
-            transform: translateY(-1px);
-        }
-
-        .filter-chip.active {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-            color: #ffffff;
-            border-color: #0284c7;
-            box-shadow: 0 3px 8px rgba(2, 132, 199, 0.35);
-        }
-
-        /* --- GRILLA DE PRODUCTOS --- */
-        .main-container {
-            max-width: 1200px;
-            margin: 25px auto;
-            padding: 0 15px;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-        }
-
-        .badge-discount {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #ef4444;
-            color: white;
-            padding: 4px 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border-radius: 6px;
-            z-index: 2;
-        }
-
-        .platform-tag {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #0f172a;
-            color: white;
-            padding: 4px 8px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            border-radius: 6px;
-            z-index: 2;
-            text-transform: uppercase;
-        }
-
-        .img-container {
-            width: 100%;
-            height: 190px;
-            background: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-
-        .img-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .card-body {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            justify-content: space-between;
-        }
-
-        .tags {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            background: #f1f5f9;
-            color: var(--text-muted);
-            font-size: 0.72rem;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: capitalize;
-        }
-
-        .title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 12px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-height: 1.35;
-        }
-
-        .price-container {
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .old-price {
-            text-decoration: line-through;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .current-price {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #16a34a;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            background-color: var(--accent);
-            color: #0f172a;
-            text-align: center;
-            padding: 9px 0;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: background-color 0.2s;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            grid-column: 1 / -1;
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            display: none;
+            footer { padding: 20px 15px; }
+            .modal-card { width: 95%; padding: 20px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">Cazador<span>Ofertas</span> 🇨🇴</div>
+        <div class="logo">Cazador<span>Ofertas</span></div>
     </header>
 
     <div class="banner-alert">
-        ℹ️ Precios de referencia. Envíos confirmados disponibles para Colombia.
+        ℹ️ Selección diaria de mejores ofertas actualizadas.
     </div>
 
-    <!-- NAVEGACIÓN Y FILTROS -->
+    <!-- NAVEGACIÓN -->
     <div class="nav-wrapper">
-        <!-- CARRUSEL PRINCIPAL (CATEGORÍAS GENERALES ÚNICAMENTE) -->
         <div class="carousel-container">
             <button class="nav-arrow left" id="arrow-left">&lt;</button>
-            
             <div class="carousel-track" id="main-carousel">
-                <button class="filter-btn active" data-filter-gen="all">Todas las secciones</button><button class="filter-btn" data-filter-gen="tecnología">Tecnología</button><button class="filter-btn" data-filter-gen="hogar">Hogar</button>
+                <button class="filter-btn active" data-filter-gen="all">Todas las secciones</button><button class="filter-btn" data-filter-gen="tecnología">Tecnología</button>
             </div>
-
             <button class="nav-arrow right" id="arrow-right">&gt;</button>
         </div>
 
-        <!-- BARRA DESPLEGABLE DE SUBCATEGORÍAS PREMIUM -->
         <div class="sub-categories-wrapper" id="sub-wrapper">
-            <div class="sub-header">
-                🏷️ Tipo de producto
-            </div>
-            <div class="sub-categories-track" id="sub-track">
-                <!-- Chips rellenados dinámicamente -->
-            </div>
+            <div class="sub-header">🏷️ Tipo de producto</div>
+            <div class="sub-categories-track" id="sub-track"></div>
         </div>
     </div>
 
-    <!-- GRILLA DE PRODUCTOS -->
+    <!-- CONTENEDOR DE PRODUCTOS -->
     <div class="main-container">
         <div class="cards-grid" id="cards-container">
             
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-27%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71LnO8I05DL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="AOQEE 2K Cámaras de seguridad para hogar interior/exterior, color completo, C1 (2 unidades)">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
-        </div>
-        <h2 class="title">AOQEE 2K Cámaras de seguridad para hogar interior/exterior, color completo, C1 (2 unidades)</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$27.48</span>
-          <span class="current-price">$19.98</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0D5V13FWQ" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-46%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/315e2KAZnpL._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (2 cámaras, negro)">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
-        </div>
-        <h2 class="title">Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (2 cámaras, negro)</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$69.99</span>
-          <span class="current-price">$37.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0F3B4PPGM" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-46%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/31+6KY5zR8L._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (2 cámaras, blanco)">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
-        </div>
-        <h2 class="title">Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (2 cámaras, blanco)</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$69.99</span>
-          <span class="current-price">$37.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0F3BJJ9DJ" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-10%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71wohIrQdeL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="GNCC Cámaras 5G para seguridad en interiores con app para teléfono, 4 unidades (para mascotas/niños/bebés)">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
-        </div>
-        <h2 class="title">GNCC Cámaras 5G para seguridad en interiores con app para teléfono, 4 unidades (para mascotas/niños/bebés)</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$52.98</span>
-          <span class="current-price">$47.68</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0FM3TNV76" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-21%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71QP8pVJOEL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Cámaras de Seguridad Inalámbricas Cinnado con Panel Solar Integrado para Exterior, S1 4 Pack">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
-        </div>
-        <h2 class="title">Cámaras de Seguridad Inalámbricas Cinnado con Panel Solar Integrado para Exterior, S1 4 Pack</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$113.98</span>
-          <span class="current-price">$89.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0GS4KBCB6" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-30%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/314PqGk2KCL._SY300_SX300_QL70_FMwebp_.jpg" alt="Ring Timbre de Batería 2K (Modelo Más Nuevo) Retinal 2K con Video de Ángulo Amplio, Zoom Mejorado de Hasta 6x, Conversación Bidireccional y Batería Integrada, Gris Manchado">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
-        </div>
-        <h2 class="title">Ring Timbre de Batería 2K (Modelo Más Nuevo) Retinal 2K con Video de Ángulo Amplio, Zoom Mejorado de Hasta 6x, Conversación Bidireccional y Batería Integrada, Gris Manchado</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$99.99</span>
-          <span class="current-price">$69.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0FHJ7TKZM" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-45%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/41HMvskxwtL._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Outdoor 4 – Cámara de seguridad inteligente inalámbrica con batería de dos años, visión en vivo HD 1080p día/noche con infrarrojos y audio bidireccional. Incluye Sistema de Sincronización Core (3 cámaras)">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
-        </div>
-        <h2 class="title">Blink Outdoor 4 – Cámara de seguridad inteligente inalámbrica con batería de dos años, visión en vivo HD 1080p día/noche con infrarrojos y audio bidireccional. Incluye Sistema de Sincronización Core (3 cámaras)</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$189.99</span>
-          <span class="current-price">$103.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0DHLQT3CG" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-42%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/410gBTQx3IL._SY300_SX300_QL70_FMwebp_.jpg" alt="Ring Indoor Cam con Giro (Modelo Más Nuevo) — Vigila Todo Alrededor de tu Hogar o Negocio con Cobertura Panorámica de 360°, Video HD y Conversación Bidireccional (Lanzamiento 2024), Blanca">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
-        </div>
-        <h2 class="title">Ring Indoor Cam con Giro (Modelo Más Nuevo) — Vigila Todo Alrededor de tu Hogar o Negocio con Cobertura Panorámica de 360°, Video HD y Conversación Bidireccional (Lanzamiento 2024), Blanca</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$59.99</span>
-          <span class="current-price">$34.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0CG2VS5FD" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de video">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-20%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71C6TFutbeL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="kimire Video Camera Camcorder Digital Camera Recorder Full HD 1080P 15FPS 24MP 3.0 Inch 270 Degree Rotation LCD 16X Digital Zoom Camcorder Camera with 2 Batteries">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Video</span>
-        </div>
-        <h2 class="title">kimire Video Camera Camcorder Digital Camera Recorder Full HD 1080P 15FPS 24MP 3.0 Inch 270 Degree Rotation LCD 16X Digital Zoom Camcorder Camera with 2 Batteries</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$65.99</span>
-          <span class="current-price">$52.74</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B08K7HFMX4" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-20%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/715EjAhP6JL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="Digital Camera, FHD 1080P Point and Shoot Camera for Kids Teens, 32GB Card">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
-        </div>
-        <h2 class="title">Digital Camera, FHD 1080P Point and Shoot Camera for Kids Teens, 32GB Card</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$49.99</span>
-          <span class="current-price">$39.98</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0DZCFJXH9" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-10%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71r4hcvDOTL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Digital Camera, FHD 4K Digital Point and Shoot Camera with 16X Zoom Anti Shake, 48MP Compact Small Camera with 32GB Card for Boys Girls Kids">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
-        </div>
-        <h2 class="title">Digital Camera, FHD 4K Digital Point and Shoot Camera with 16X Zoom Anti Shake, 48MP Compact Small Camera with 32GB Card for Boys Girls Kids</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$29.99</span>
-          <span class="current-price">$26.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0GTM1Y29B" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-26%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/81-6GmMJVsL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="8K Digital Cameras for Photography 88MP WiFi UHD Autofocus Vlogging Camera">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
-        </div>
-        <h2 class="title">8K Digital Cameras for Photography 88MP WiFi UHD Autofocus Vlogging Camera</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$159.99</span>
-          <span class="current-price">$118.38</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0HBQYTB5Z" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-20%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71IlU7w5rPL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="Lecran Digital Camera, FHD 1080P Point and Shoot Camera for Kids Teens Pink">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
-        </div>
-        <h2 class="title">Lecran Digital Camera, FHD 1080P Point and Shoot Camera for Kids Teens Pink</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$49.99</span>
-          <span class="current-price">$39.98</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0BN3SZRRC" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-39%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71aUWyvyetL._AC_SX300_SY300_QL70_FMwebp_.jpg" alt="Digital Camera 4K for Kids - 48MP Autofocus Vlogging Camera with 32GB Card, 16X Zoom, Anti-Shake, Compact Point and Shoot Camera for Teens Beginners, Birthday Gift Black">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
-        </div>
-        <h2 class="title">Digital Camera 4K for Kids - 48MP Autofocus Vlogging Camera with 32GB Card, 16X Zoom, Anti-Shake, Compact Point and Shoot Camera for Teens Beginners, Birthday Gift Black</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$69.99</span>
-          <span class="current-price">$42.97</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0H4GPFJGW" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-40%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71s5fHoHpUL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="5K 80MP Wi-Fi Digital Camera for Photography with 3&quot; Flip Screen Autofoucs">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
-        </div>
-        <h2 class="title">5K 80MP Wi-Fi Digital Camera for Photography with 3" Flip Screen Autofoucs</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$99.99</span>
-          <span class="current-price">$59.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0H9WYNFWR" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras digitales">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-58%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/61LzSaT9CQL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Digital Camera, Pink Digital Camera for Teens Photograper, 50MP FHD 1080P Compact Camera with TF Card, 16X Zoom Anti-Shake, Webcam, Christmas Birthday Gifts for Girl Boys 3-12, 13-18 Years Old">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras Digitales</span>
-        </div>
-        <h2 class="title">Digital Camera, Pink Digital Camera for Teens Photograper, 50MP FHD 1080P Compact Camera with TF Card, 16X Zoom Anti-Shake, Webcam, Christmas Birthday Gifts for Girl Boys 3-12, 13-18 Years Old</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$33.99</span>
-          <span class="current-price">$14.44</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0DST71JL6" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="hogar" data-cat-especifica="muebles de exterior">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-10%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/81B3lqsKxGL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="MFSTUDIO 50 Inches Outdoor Garden Bench Cast Iron Metal Frame Floral Bronze">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Hogar</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Muebles de Exterior</span>
-        </div>
-        <h2 class="title">MFSTUDIO 50 Inches Outdoor Garden Bench Cast Iron Metal Frame Floral Bronze</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$129.99</span>
-          <span class="current-price">$116.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B09M6C3ZKW" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="hogar" data-cat-especifica="muebles de exterior">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="monitores">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-24%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/81KyWK-AVFL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Outdoor Swivel Rocking Chair Patio Set (8pcs) High-Back - Thick Cushion Swivel Rocking Chair Patio with Fire Table Set, All-Weather Wicker Patio Furniture Set, Suitable for Balcony Patios, Brown/Gery">
+      <img src="https://m.media-amazon.com/images/I/61sSBt+Rv4L._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="INNOCN 49&quot; Curved Monitor Ultrawide Gaming 5K2K 120Hz 32:9 QHD 5120 x 1440P Computer Monitor, R1800, 99% sRGB, HDR400, USB Type C, DisplayPort, HDMI, Built-in Speakers, Height/Tilt Adjustable - 49C1R">
     </div>
 
     <div class="card-body">
       <div>
         <div class="tags">
-          <span class="tag">Hogar</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Muebles de Exterior</span>
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Monitores</span>
         </div>
-        <h2 class="title">Outdoor Swivel Rocking Chair Patio Set (8pcs) High-Back - Thick Cushion Swivel Rocking Chair Patio with Fire Table Set, All-Weather Wicker Patio Furniture Set, Suitable for Balcony Patios, Brown/Gery</h2>
+        <h2 class="title">INNOCN 49" Curved Monitor Ultrawide Gaming 5K2K 120Hz 32:9 QHD 5120 x 1440P Computer Monitor, R1800, 99% sRGB, HDR400, USB Type C, DisplayPort, HDMI, Built-in Speakers, Height/Tilt Adjustable - 49C1R</h2>
       </div>
       <div>
         <div class="price-container">
-          <span class="old-price">$2049.99</span>
-          <span class="current-price">$1568.23</span>
+          <span class="old-price">$699.99</span>
+          <span class="current-price">$535.49</span>
         </div>
-        <a href="https://www.amazon.com/dp/B0GFDT6MXH" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
+        <a href="https://www.amazon.com/dp/B0BXZY18SB" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
       </div>
     </div>
   </div>
 
-  <div class="card" data-cat-general="hogar" data-cat-especifica="muebles de exterior">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="monitores">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-10%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/61IAVMugBTL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="FDW 3-Piece Patio Furniture Set | Black & Beige | Outdoor Wicker Furniture">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Hogar</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Muebles de Exterior</span>
-        </div>
-        <h2 class="title">FDW 3-Piece Patio Furniture Set | Black & Beige | Outdoor Wicker Furniture</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$84.99</span>
-          <span class="current-price">$76.49</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B09534QLNF" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="hogar" data-cat-especifica="muebles de exterior">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-22%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/81BFIsLwFvL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Outdoor Swivel Rocking Chair Patio Set (9pcs) High-Back - Thick Cushion Swivel Rocking Chair Patio with Fire Table Set, All-Weather Wicker Patio Furniture Set, Suitable for Balcony Patios, Brown/Beige">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Hogar</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Muebles de Exterior</span>
-        </div>
-        <h2 class="title">Outdoor Swivel Rocking Chair Patio Set (9pcs) High-Back - Thick Cushion Swivel Rocking Chair Patio with Fire Table Set, All-Weather Wicker Patio Furniture Set, Suitable for Balcony Patios, Brown/Beige</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$2499.99</span>
-          <span class="current-price">$1949.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0GFLDD4TJ" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="hogar" data-cat-especifica="muebles de exterior">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-10%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/81ka2HvkWWL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="LayinSun 8 Piece Patio Furniture Set with 44&quot; Propane Gas Fire Pit Table, Outdoor Sectional Conversation Set Wicker Rattan Sofa Set with Coffee Table">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Hogar</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Muebles de Exterior</span>
-        </div>
-        <h2 class="title">LayinSun 8 Piece Patio Furniture Set with 44" Propane Gas Fire Pit Table, Outdoor Sectional Conversation Set Wicker Rattan Sofa Set with Coffee Table</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$689.99</span>
-          <span class="current-price">$620.99</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0BCNVSN3H" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="hogar" data-cat-especifica="muebles de exterior">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-22%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/91i1pm92HXL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Shintenchi 3 Pieces Outdoor Patio Furniture Sets, Wicker Patio Conversation Sets, All Weather Wicker Rattan Patio Seating Sofas with Glass Coffee Table and Cushion, Blue-Gray">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Hogar</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Muebles de Exterior</span>
-        </div>
-        <h2 class="title">Shintenchi 3 Pieces Outdoor Patio Furniture Sets, Wicker Patio Conversation Sets, All Weather Wicker Rattan Patio Seating Sofas with Glass Coffee Table and Cushion, Blue-Gray</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$229.99</span>
-          <span class="current-price">$180.49</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0GWZ3PGVH" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="hogar" data-cat-especifica="muebles de exterior">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-15%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/81Feja4Kf0L._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="4pcs L-Shape Patio Furniture, Outdoor Sectional with 10&quot; Thick Cushion">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Hogar</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Muebles de Exterior</span>
-        </div>
-        <h2 class="title">4pcs L-Shape Patio Furniture, Outdoor Sectional with 10" Thick Cushion</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$741.99</span>
-          <span class="current-price">$630.69</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0G4L53TWF" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="hogar" data-cat-especifica="muebles de exterior">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-15%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71PDwEnozbL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="DUMOS Patio Furniture Set 3-Piece, Outdoor Wicker Bistro Set, Black">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Hogar</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Muebles de Exterior</span>
-        </div>
-        <h2 class="title">DUMOS Patio Furniture Set 3-Piece, Outdoor Wicker Bistro Set, Black</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$79.98</span>
-          <span class="current-price">$67.85</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0GX1739Q2" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-33%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/31iHRXUgIfL._SY300_SX300_QL70_FMwebp_.jpg" alt="Ring Floodlight Cam Wired Plus – Cámara de seguridad exterior con video HD 1080p y luces inundación activadas por movimiento (blanco)">
+      <img src="https://m.media-amazon.com/images/I/716VJQAs7ML._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="ZZA 25&quot; 240Hz Curved Gaming Computer Monitors, FHD 1080P,144Hz Compatible">
     </div>
 
     <div class="card-body">
       <div>
         <div class="tags">
           <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Monitores</span>
         </div>
-        <h2 class="title">Ring Floodlight Cam Wired Plus – Cámara de seguridad exterior con video HD 1080p y luces inundación activadas por movimiento (blanco)</h2>
+        <h2 class="title">ZZA 25" 240Hz Curved Gaming Computer Monitors, FHD 1080P,144Hz Compatible</h2>
       </div>
       <div>
         <div class="price-container">
-          <span class="old-price">$179.99</span>
-          <span class="current-price">$119.99</span>
+          <span class="old-price">$99.99</span>
+          <span class="current-price">$89.99</span>
         </div>
-        <a href="https://www.amazon.com/dp/B08F6GPQQ7" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
+        <a href="https://www.amazon.com/dp/B0FM3NTR1W" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
       </div>
     </div>
   </div>
 
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="monitores">
     <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-45%</span>
+    <span class="badge-discount">-23%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/315e2KAZnpL._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (1 cámara, negro)">
+      <img src="https://m.media-amazon.com/images/I/61zxrwY1nWL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Samsung 32&quot; S3 (S39GD) Series FHD 100Hz Curved Monitor">
     </div>
 
     <div class="card-body">
       <div>
         <div class="tags">
           <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Monitores</span>
         </div>
-        <h2 class="title">Blink Mini 2K+ – Cámara de seguridad para interiores y mascotas con resolución 2K, visión nocturna, audio mejorado y detección de movimiento (1 cámara, negro)</h2>
+        <h2 class="title">Samsung 32" S3 (S39GD) Series FHD 100Hz Curved Monitor</h2>
       </div>
       <div>
         <div class="price-container">
-          <span class="old-price">$39.99</span>
-          <span class="current-price">$21.99</span>
+          <span class="old-price">$232.69</span>
+          <span class="current-price">$179.99</span>
         </div>
-        <a href="https://www.amazon.com/dp/B0F3BB8D37" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
+        <a href="https://www.amazon.com/dp/B0FTT4VH34" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
       </div>
     </div>
   </div>
 
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cámaras de seguridad">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="monitores">
     <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-45%</span>
+    <span class="badge-discount">-17%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/41HMvskxwtL._SY300_SX300_QL70_FMwebp_.jpg" alt="Blink Outdoor 4 – Cámara de seguridad inteligente inalámbrica con batería de dos años, visión en vivo HD 1080p día/noche con infrarrojos y audio bidireccional. Incluye Sistema de Sincronización Core (5 cámaras)">
+      <img src="https://m.media-amazon.com/images/I/61qGYTlW3FL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Alienware 34 Curved Gaming Monitor – AW3425DWM - 34-inch WQHD 180Hz 1ms Display, 1500R, AMD FreeSync Premium, VESA AdaptiveSync">
     </div>
 
     <div class="card-body">
       <div>
         <div class="tags">
           <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cámaras de Seguridad</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Monitores</span>
         </div>
-        <h2 class="title">Blink Outdoor 4 – Cámara de seguridad inteligente inalámbrica con batería de dos años, visión en vivo HD 1080p día/noche con infrarrojos y audio bidireccional. Incluye Sistema de Sincronización Core (5 cámaras)</h2>
+        <h2 class="title">Alienware 34 Curved Gaming Monitor – AW3425DWM - 34-inch WQHD 180Hz 1ms Display, 1500R, AMD FreeSync Premium, VESA AdaptiveSync</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$349.99</span>
+          <span class="current-price">$289.99</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0DZL719V1" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="monitores">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-27%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/71ahgopXGzL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="LG 34U60ZB-B 34-inch UltraWide WQHD 120Hz HDR10 1800R Curved Monitor, Black">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Monitores</span>
+        </div>
+        <h2 class="title">LG 34U60ZB-B 34-inch UltraWide WQHD 120Hz HDR10 1800R Curved Monitor, Black</h2>
       </div>
       <div>
         <div class="price-container">
           <span class="old-price">$299.99</span>
-          <span class="current-price">$164.99</span>
+          <span class="current-price">$219.99</span>
         </div>
-        <a href="https://www.amazon.com/dp/B0DHLTCYWH" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
+        <a href="https://www.amazon.com/dp/B0GXCG7ZTF" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
       </div>
     </div>
   </div>
 
-            <div class="no-results" id="no-results">No se encontraron productos en esta categoría.</div>
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="monitores">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-27%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/81j2qQfvoxL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Dell 27 240Hz Gaming Monitor - SE2726HG - 27-inch FHD (1920x1080) 240Hz Display, in-Plane Switching (IPS) Technology, AMD FreeSync Premium, TÜV 3-Star, 2X HDMI, DisplayPort 1.4, Tilt">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Monitores</span>
+        </div>
+        <h2 class="title">Dell 27 240Hz Gaming Monitor - SE2726HG - 27-inch FHD (1920x1080) 240Hz Display, in-Plane Switching (IPS) Technology, AMD FreeSync Premium, TÜV 3-Star, 2X HDMI, DisplayPort 1.4, Tilt</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$149.99</span>
+          <span class="current-price">$109.99</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0GGRKQ494" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="monitores">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-16%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/718g-qGzV-L._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="KTC 32 Inch Curved Gaming Monitor, FHD 1080P 165Hz 1500R Monitor, H32S17C">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Monitores</span>
+        </div>
+        <h2 class="title">KTC 32 Inch Curved Gaming Monitor, FHD 1080P 165Hz 1500R Monitor, H32S17C</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$179.99</span>
+          <span class="current-price">$151.97</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0CT4HXVZX" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
+            <div class="no-results" id="no-results" style="display:none; text-align:center; grid-column:1/-1; padding:40px; color:var(--text-muted);">
+                No se encontraron productos en esta categoría.
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER OBLIGATORIO DE AMAZON ASSOCIATES -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a id="btn-privacy">Política de Privacidad</a>
+                <a id="btn-terms">Términos y Condiciones</a>
+            </div>
+            <p class="amazon-disclaimer">
+                En calidad de Afiliado de Amazon, este sitio web obtiene ingresos por las compras adscritas que cumplen los requisitos aplicables. Los precios y la disponibilidad de los productos están sujetos a cambios.
+            </p>
+            <p>&copy; 2026 Cazador de Ofertas.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL VENTANA FLOTANTE -->
+    <div class="modal-overlay" id="modal-policy">
+        <div class="modal-card">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <h3 id="modal-title">Política de Privacidad</h3>
+            <div id="modal-text"></div>
         </div>
     </div>
 
@@ -1127,21 +543,18 @@
             const cards = document.querySelectorAll('.card');
             const noResults = document.getElementById('no-results');
 
-            // 1. FLECHAS DE DESPLAZAMIENTO DEL CARRUSEL
-            arrowLeft.addEventListener('click', () => track.scrollBy({ left: -200, behavior: 'smooth' }));
-            arrowRight.addEventListener('click', () => track.scrollBy({ left: 200, behavior: 'smooth' }));
+            if (arrowLeft && arrowRight && track) {
+                arrowLeft.addEventListener('click', () => track.scrollBy({ left: -200, behavior: 'smooth' }));
+                arrowRight.addEventListener('click', () => track.scrollBy({ left: 200, behavior: 'smooth' }));
+            }
 
-            // 2. EXTRAER SUBCATEGORÍAS ÚNICAMENTE DE LAS TARJETAS DEL DOM
+            // Mapeo de Subcategorías
             const subCatMap = new Map();
-
             cards.forEach(card => {
                 const gen = (card.getAttribute('data-cat-general') || '').trim().toLowerCase();
                 const spec = (card.getAttribute('data-cat-especifica') || '').trim();
-
                 if (gen && spec) {
-                    if (!subCatMap.has(gen)) {
-                        subCatMap.set(gen, new Set());
-                    }
+                    if (!subCatMap.has(gen)) subCatMap.set(gen, new Set());
                     subCatMap.get(gen).add(spec);
                 }
             });
@@ -1149,16 +562,13 @@
             let activeGen = 'all';
             let activeSpec = 'all';
 
-            // 3. CAPTURAR CLICS EN CATEGORÍAS GENERALES Y SUBCATEGORÍAS
             document.addEventListener('click', function(e) {
                 const btnGen = e.target.closest('[data-filter-gen]');
                 if (btnGen) {
                     document.querySelectorAll('[data-filter-gen]').forEach(b => b.classList.remove('active'));
                     btnGen.classList.add('active');
-
                     activeGen = btnGen.getAttribute('data-filter-gen').toLowerCase();
                     activeSpec = 'all';
-
                     renderSubCategories(activeGen);
                     filterCards();
                 }
@@ -1167,16 +577,13 @@
                 if (btnSpec) {
                     document.querySelectorAll('[data-filter-spec]').forEach(b => b.classList.remove('active'));
                     btnSpec.classList.add('active');
-
                     activeSpec = btnSpec.getAttribute('data-filter-spec').toLowerCase();
                     filterCards();
                 }
             });
 
-            // 4. GENERAR Y MOSTRAR SUBCATEGORÍAS CON ANIMACIÓN
             function renderSubCategories(genCategory) {
                 subTrack.innerHTML = '';
-
                 if (genCategory === 'all' || !subCatMap.has(genCategory)) {
                     subWrapper.classList.remove('open');
                     return;
@@ -1197,10 +604,8 @@
                 subWrapper.classList.add('open');
             }
 
-            // 5. FILTRAR TARJETAS EN EL DOM
             function filterCards() {
                 let visibleCount = 0;
-
                 cards.forEach(card => {
                     const cardGen = (card.getAttribute('data-cat-general') || '').toLowerCase();
                     const cardSpec = (card.getAttribute('data-cat-especifica') || '').toLowerCase();
@@ -1215,8 +620,34 @@
                         card.style.display = 'none';
                     }
                 });
-
                 noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+            // Lógica para Modal de Políticas y Términos
+            const modal = document.getElementById('modal-policy');
+            const btnPrivacy = document.getElementById('btn-privacy');
+            const btnTerms = document.getElementById('btn-terms');
+            const closeModal = document.getElementById('close-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalText = document.getElementById('modal-text');
+
+            if (btnPrivacy && btnTerms && modal) {
+                btnPrivacy.addEventListener('click', () => {
+                    modalTitle.textContent = "Política de Privacidad";
+                    modalText.innerHTML = '<p>Este sitio web respeta la privacidad de sus usuarios. No recopilamos datos personales sin consentimiento. Las compras se efectúan directamente en Amazon a través de enlaces de afiliado seguros.</p>';
+                    modal.classList.add('active');
+                });
+
+                btnTerms.addEventListener('click', () => {
+                    modalTitle.textContent = "Términos y Condiciones";
+                    modalText.innerHTML = '<p>Participamos en el Programa de Afiliados de Amazon. Todos los precios, stock y promociones son gestionados directamente por la plataforma de destino y están sujetos a cambios sin previo aviso.</p>';
+                    modal.classList.add('active');
+                });
+
+                closeModal.addEventListener('click', () => modal.classList.remove('active'));
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.classList.remove('active');
+                });
             }
         });
     </script>
