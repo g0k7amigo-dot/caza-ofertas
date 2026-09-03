@@ -27,6 +27,11 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* --- BLOQUEO DE NAVEGACIÓN HASTA ACEPTAR --- */
+        body.consent-pending {
+            overflow: hidden !important;
+        }
+
         header { 
             background-color: var(--primary); 
             color: #ffffff; 
@@ -211,14 +216,15 @@
         .footer-links a:hover { color: var(--accent); text-decoration: underline; }
         .amazon-disclaimer { line-height: 1.5; color: #94a3b8; font-size: 0.8rem; }
 
-        /* --- MODAL POLÍTICAS Y TÉRMINOS --- */
+        /* --- MODAL Y BANNER DE CONSENTIMIENTO INICIAL --- */
         .modal-overlay { 
             position: fixed; 
             top: 0; 
             left: 0; 
             width: 100%; 
             height: 100%; 
-            background: rgba(0, 0, 0, 0.6); 
+            background: rgba(15, 23, 42, 0.75); 
+            backdrop-filter: blur(4px);
             display: flex; 
             align-items: center; 
             justify-content: center; 
@@ -232,16 +238,18 @@
             background: #ffffff; 
             color: var(--text-main); 
             width: 90%; 
-            max-width: 600px; 
+            max-width: 580px; 
             padding: 30px; 
-            border-radius: 12px; 
+            border-radius: 16px; 
             position: relative; 
-            max-height: 80vh; 
+            max-height: 85vh; 
             overflow-y: auto; 
             text-align: left; 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        .modal-card h3 { margin-bottom: 15px; color: var(--primary); }
+        .modal-card h3 { margin-bottom: 15px; color: var(--primary); font-size: 1.25rem; }
         .modal-card p { margin-bottom: 12px; line-height: 1.6; color: #475569; font-size: 0.92rem; }
+        .modal-card ul { margin: 10px 0 15px 20px; color: #475569; font-size: 0.9rem; line-height: 1.5; }
         .close-modal { 
             position: absolute; 
             top: 15px; 
@@ -253,6 +261,43 @@
             color: var(--text-muted); 
         }
 
+        /* Banner de términos obligatorio */
+        .consent-card {
+            text-align: center;
+        }
+        .consent-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        .consent-card p {
+            text-align: justify;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .consent-links-inline {
+            color: #0284c7;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-consent {
+            display: inline-block;
+            width: 100%;
+            background-color: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-consent:hover {
+            background-color: var(--accent-hover);
+        }
+
         /* =========================================================
            REGLAS DE OPTIMIZACIÓN PARA MÓVILES (PANTALLAS < 600px)
            ========================================================= */
@@ -261,7 +306,6 @@
             .logo { font-size: 1.2rem; }
             .banner-alert { font-size: 0.78rem; padding: 6px 10px; }
 
-            /* Carrusel Táctil Modo App (se ocultan las flechas para aprovechar espacio) */
             .carousel-container { padding: 10px 12px; }
             .nav-arrow { display: none !important; }
             .filter-btn { padding: 6px 14px; font-size: 0.8rem; }
@@ -269,14 +313,12 @@
             .sub-categories-wrapper.open { padding: 10px 12px; }
             .filter-chip { padding: 5px 12px; font-size: 0.78rem; }
 
-            /* Grilla de 2 columnas estilo Temu / AliExpress */
             .main-container { padding: 0 10px; margin: 15px auto; }
             .cards-grid { 
                 grid-template-columns: repeat(2, 1fr); 
                 gap: 10px; 
             }
 
-            /* Ajuste compacto de las tarjetas */
             .card { border-radius: 8px; }
             .badge-discount { top: 6px; right: 6px; font-size: 0.68rem; padding: 2px 5px; border-radius: 4px; }
             .img-container { height: 130px; padding: 8px; }
@@ -292,7 +334,7 @@
         }
     </style>
 </head>
-<body>
+<body class="consent-pending">
 
     <header>
         <div class="logo">Cazador<span>Ofertas</span></div>
@@ -821,7 +863,7 @@
     <span class="badge-discount">-33%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/61BErV2ejWL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Pinkpum Wood Home Sign with Eucalyptus Wreath for O Home Decor Wall Decor">
+      <img src="https://m.media-amazon.com/images/I/61BErV2ejWL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Pinkpum Wood Home Sign with Eucalyptus Wreath for Home Decor Wall Decor">
     </div>
 
     <div class="card-body">
@@ -830,7 +872,7 @@
           <span class="tag">Hogar</span>
           <span class="tag" style="background:#e0f2fe; color:#0369a1;">Decoración</span>
         </div>
-        <h2 class="title">Pinkpum Wood Home Sign with Eucalyptus Wreath for O Home Decor Wall Decor</h2>
+        <h2 class="title">Pinkpum Wood Home Sign with Eucalyptus Wreath for Home Decor Wall Decor</h2>
       </div>
       <div>
         <div class="price-container">
@@ -1622,6 +1664,32 @@
     </div>
   </div>
 
+  <div class="card" data-cat-general="hogar" data-cat-especifica="decoración">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-50%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/71JRYfJ4DEL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="DuHouse Faux Flowers for Vase Beige Kiku 8 Stems & 3 Eucalyptus">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Hogar</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Decoración</span>
+        </div>
+        <h2 class="title">DuHouse Faux Flowers for Vase Beige Kiku 8 Stems & 3 Eucalyptus</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$25.99</span>
+          <span class="current-price">$12.99</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0G13GSSYK" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
             <div class="no-results" id="no-results" style="display:none; text-align:center; grid-column:1/-1; padding:40px; color:var(--text-muted);">
                 No se encontraron productos en esta categoría.
             </div>
@@ -1638,15 +1706,28 @@
             <p class="amazon-disclaimer">
                 En calidad de Afiliado de Amazon, este sitio web obtiene ingresos por las compras adscritas que cumplen los requisitos aplicables. Los precios y la disponibilidad de los productos están sujetos a cambios.
             </p>
-            <p>&copy; 2026 Cazador de Ofertas.</p>
+            <p>&copy; 2026 Cazador de Ofertas. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <!-- MODAL VENTANA FLOTANTE -->
+    <!-- BANNER OBLIGATORIO DE ENTRADA -->
+    <div class="modal-overlay active" id="modal-consent">
+        <div class="modal-card consent-card">
+            <h3>Bienvenido a Cazador de Ofertas 🛍️</h3>
+            <p>
+                Para brindarte la mejor experiencia y garantizar la transparencia de nuestro portal de ofertas, por favor lee y acepta nuestra 
+                <span class="consent-links-inline" id="link-privacy-inline">Política de Privacidad</span> y nuestros 
+                <span class="consent-links-inline" id="link-terms-inline">Términos y Condiciones</span> antes de continuar.
+            </p>
+            <button class="btn-consent" id="btn-accept-consent">Aceptar y Continuar</button>
+        </div>
+    </div>
+
+    <!-- MODAL VENTANA FLOTANTE DE INFORMACIÓN MÓDULO LEGAL -->
     <div class="modal-overlay" id="modal-policy">
         <div class="modal-card">
             <button class="close-modal" id="close-modal">&times;</button>
-            <h3 id="modal-title">Política de Privacidad</h3>
+            <h3 id="modal-title">Información Legal</h3>
             <div id="modal-text"></div>
         </div>
     </div>
@@ -1742,32 +1823,59 @@
                 noResults.style.display = visibleCount === 0 ? 'block' : 'none';
             }
 
-            // Lógica para Modal de Políticas y Términos
-            const modal = document.getElementById('modal-policy');
-            const btnPrivacy = document.getElementById('btn-privacy');
-            const btnTerms = document.getElementById('btn-terms');
+            // TEXTOS LEGALES
+            const privacyText = `
+                <p>En <strong>Cazador de Ofertas</strong>, valoramos su privacidad y nos comprometemos a proteger sus datos personales.</p>
+                <p><strong>1. Recopilación de Datos:</strong> Este sitio web opera como un portal informativo y de recomendación. No recopilamos ni almacenamos datos personales identificables (como nombres, direcciones o datos de pago).</p>
+                <p><strong>2. Enlaces de Terceros y Afiliación:</strong> Al hacer clic en los productos expuestos, será redirigido a Amazon.com. Cualquier transacción realizada se ejecuta directamente en los servidores de Amazon bajo sus propios estándares de seguridad y privacidad.</p>
+                <p><strong>3. Uso de Cookies y Métricas:</strong> No utilizamos cookies de rastreo propio para perfilar a los usuarios. La navegación por nuestro sitio es anónima.</p>
+            `;
+
+            const termsText = `
+                <p>Bienvenido a <strong>Cazador de Ofertas</strong>. Al utilizar nuestro sitio web, usted acepta cumplir con los siguientes términos:</p>
+                <p><strong>1. Declaración de Afiliado:</strong> Participamos en el Programa de Afiliados de Amazon Services LLC, un programa de publicidad diseñado para ofrecer a sitios web un medio para obtener comisiones por publicidad al enlazar a Amazon.com.</p>
+                <p><strong>2. Precios y Disponibilidad:</strong> Los precios, descuentos y la disponibilidad de los productos son precisos a la fecha y hora de publicación, pero están sujetos a cambios constantes por parte del vendedor. Verifique el precio final en Amazon antes de realizar la compra.</p>
+                <p><strong>3. Limitación de Responsabilidad:</strong> No nos hacemos responsables por garantías, envíos, devoluciones o soporte de los productos exhibidos. Todas las consultas sobre pedidos deben dirigirse al soporte al cliente de Amazon.</p>
+            `;
+
+            // MODAL Y CONSENTIMIENTO
+            const modalConsent = document.getElementById('modal-consent');
+            const btnAcceptConsent = document.getElementById('btn-accept-consent');
+            const modalPolicy = document.getElementById('modal-policy');
             const closeModal = document.getElementById('close-modal');
             const modalTitle = document.getElementById('modal-title');
             const modalText = document.getElementById('modal-text');
 
-            if (btnPrivacy && btnTerms && modal) {
-                btnPrivacy.addEventListener('click', () => {
-                    modalTitle.textContent = "Política de Privacidad";
-                    modalText.innerHTML = '<p>Este sitio web respeta la privacidad de sus usuarios. No recopilamos datos personales sin consentimiento. Las compras se efectúan directamente en Amazon a través de enlaces de afiliado seguros.</p>';
-                    modal.classList.add('active');
-                });
-
-                btnTerms.addEventListener('click', () => {
-                    modalTitle.textContent = "Términos y Condiciones";
-                    modalText.innerHTML = '<p>Participamos en el Programa de Afiliados de Amazon. Todos los precios, stock y promociones son gestionados directamente por la plataforma de destino y están sujetos a cambios sin previo aviso.</p>';
-                    modal.classList.add('active');
-                });
-
-                closeModal.addEventListener('click', () => modal.classList.remove('active'));
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) modal.classList.remove('active');
-                });
+            function openLegalModal(title, content) {
+                modalTitle.textContent = title;
+                modalText.innerHTML = content;
+                modalPolicy.classList.add('active');
             }
+
+            // Recordar si ya aceptó previamente
+            if (localStorage.getItem('user_consent_accepted') === 'true') {
+                modalConsent.classList.remove('active');
+                document.body.classList.remove('consent-pending');
+            }
+
+            btnAcceptConsent.addEventListener('click', function() {
+                localStorage.setItem('user_consent_accepted', 'true');
+                modalConsent.classList.remove('active');
+                document.body.classList.remove('consent-pending');
+            });
+
+            // Enlaces de lectura dentro del banner
+            document.getElementById('link-privacy-inline').addEventListener('click', () => openLegalModal('Política de Privacidad', privacyText));
+            document.getElementById('link-terms-inline').addEventListener('click', () => openLegalModal('Términos y Condiciones', termsText));
+
+            // Enlaces del Footer
+            document.getElementById('btn-privacy').addEventListener('click', () => openLegalModal('Política de Privacidad', privacyText));
+            document.getElementById('btn-terms').addEventListener('click', () => openLegalModal('Términos y Condiciones', termsText));
+
+            closeModal.addEventListener('click', () => modalPolicy.classList.remove('active'));
+            modalPolicy.addEventListener('click', (e) => {
+                if (e.target === modalPolicy) modalPolicy.classList.remove('active');
+            });
         });
     </script>
 </body>
