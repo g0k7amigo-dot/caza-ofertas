@@ -38,7 +38,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- BLOQUEO DE NAVEGACIÓN HASTA ACEPTAR --- */
         body.consent-pending {
             overflow: hidden !important;
         }
@@ -63,7 +62,6 @@
             border-bottom: 1px solid #bae6fd; 
         }
 
-        /* --- NAVEGACIÓN Y CARRUSEL --- */
         .nav-wrapper { 
             background: #ffffff; 
             border-bottom: 1px solid var(--border-color); 
@@ -154,7 +152,6 @@
         }
         .filter-chip.active { background: #0284c7; color: #ffffff; border-color: #0284c7; }
 
-        /* --- GRILLA Y TARJETAS --- */
         .main-container { max-width: 1200px; margin: 25px auto; padding: 0 15px; flex: 1; width: 100%; }
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
         
@@ -211,7 +208,6 @@
         }
         .btn:hover { background-color: var(--accent-hover); }
 
-        /* --- FOOTER Y AVISO LEGAL OBLIGATORIO AMAZON --- */
         footer { 
             background-color: var(--primary); 
             color: #94a3b8; 
@@ -227,7 +223,6 @@
         .footer-links a:hover { color: var(--accent); text-decoration: underline; }
         .amazon-disclaimer { line-height: 1.5; color: #94a3b8; font-size: 0.8rem; }
 
-        /* --- MODAL Y BANNER DE CONSENTIMIENTO INICIAL --- */
         .modal-overlay { 
             position: fixed; 
             top: 0; 
@@ -272,7 +267,6 @@
             color: var(--text-muted); 
         }
 
-        /* Banner de términos obligatorio */
         .consent-card {
             text-align: center;
         }
@@ -309,9 +303,6 @@
             background-color: var(--accent-hover);
         }
 
-        /* =========================================================
-           REGLAS DE OPTIMIZACIÓN PARA MÓVILES (PANTALLAS < 600px)
-           ========================================================= */
         @media (max-width: 600px) {
             header { padding: 12px 15px; }
             .logo { font-size: 1.2rem; }
@@ -355,7 +346,6 @@
         ℹ️ Selección diaria de mejores ofertas actualizadas.
     </div>
 
-    <!-- NAVEGACIÓN -->
     <div class="nav-wrapper">
         <div class="carousel-container">
             <button class="nav-arrow left" id="arrow-left">&lt;</button>
@@ -371,7 +361,6 @@
         </div>
     </div>
 
-    <!-- CONTENEDOR DE PRODUCTOS -->
     <div class="main-container">
         <div class="cards-grid" id="cards-container">
             
@@ -433,7 +422,6 @@
         </div>
     </div>
 
-    <!-- FOOTER OBLIGATORIO DE AMAZON ASSOCIATES -->
     <footer>
         <div class="footer-content">
             <div class="footer-links">
@@ -447,7 +435,6 @@
         </div>
     </footer>
 
-    <!-- BANNER OBLIGATORIO DE ENTRADA -->
     <div class="modal-overlay active" id="modal-consent">
         <div class="modal-card consent-card">
             <h3>Bienvenido a Cazador de Ofertas 🛍️</h3>
@@ -460,7 +447,6 @@
         </div>
     </div>
 
-    <!-- MODAL VENTANA FLOTANTE DE INFORMACIÓN MÓDULO LEGAL -->
     <div class="modal-overlay" id="modal-policy">
         <div class="modal-card">
             <button class="close-modal" id="close-modal">&times;</button>
@@ -485,7 +471,6 @@
                 arrowRight.addEventListener('click', () => track.scrollBy({ left: 200, behavior: 'smooth' }));
             }
 
-            // DISTRIBUCIÓN ALEATORIA DE PRODUCTOS
             const cardsArray = Array.from(cards);
             for (let i = cardsArray.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -496,7 +481,6 @@
             
             cards = document.querySelectorAll('.card');
 
-            // Mapeo de Subcategorías
             const subCatMap = new Map();
             cards.forEach(card => {
                 const gen = (card.getAttribute('data-cat-general') || '').trim().toLowerCase();
@@ -572,7 +556,6 @@
                 noResults.style.display = visibleCount === 0 ? 'block' : 'none';
             }
 
-            // TEXTOS LEGALES ACTUALIZADOS CON GOOGLE ANALYTICS
             const privacyText = `
                 <p>En <strong>Cazador de Ofertas</strong>, valoramos su privacidad y nos comprometemos a ser transparentes sobre la información que recopilamos.</p>
                 <p><strong>1. Recopilación de Datos Personales:</strong> Este sitio web opera como un portal informativo de ofertas y afiliados. No solicitamos, almacenamos ni procesamos datos personales identificables (como nombres, direcciones de correo o datos bancarios).</p>
@@ -588,7 +571,6 @@
                 <p><strong>4. Exención de Responsabilidad:</strong> No prestamos servicios de venta directa, envío, soporte postventa ni gestión de garantías. Todas las dudas sobre un pedido deben tramitarse directamente con Amazon.</p>
             `;
 
-            // MODAL Y CONSENTIMIENTO
             const modalConsent = document.getElementById('modal-consent');
             const btnAcceptConsent = document.getElementById('btn-accept-consent');
             const modalPolicy = document.getElementById('modal-policy');
@@ -602,7 +584,6 @@
                 modalPolicy.classList.add('active');
             }
 
-            // Recordar si ya aceptó previamente
             if (localStorage.getItem('user_consent_accepted') === 'true') {
                 modalConsent.classList.remove('active');
                 document.body.classList.remove('consent-pending');
@@ -614,11 +595,9 @@
                 document.body.classList.remove('consent-pending');
             });
 
-            // Enlaces de lectura dentro del banner
             document.getElementById('link-privacy-inline').addEventListener('click', () => openLegalModal('Política de Privacidad', privacyText));
             document.getElementById('link-terms-inline').addEventListener('click', () => openLegalModal('Términos y Condiciones', termsText));
 
-            // Enlaces del Footer
             document.getElementById('btn-privacy').addEventListener('click', () => openLegalModal('Política de Privacidad', privacyText));
             document.getElementById('btn-terms').addEventListener('click', () => openLegalModal('Términos y Condiciones', termsText));
 
