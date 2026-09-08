@@ -512,19 +512,25 @@
             const cardsContainer = document.getElementById('cards-container');
             const noResults = document.getElementById('no-results');
 
-            // Limpieza de nodos de texto huérfanos ($ fuera de las tarjetas) dentro del grid
-            if (cardsContainer) {
-                Array.from(cardsContainer.childNodes).forEach(node => {
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        node.remove();
-                    }
-                });
-            }
-
-            // Limpieza de precios y formateo de etiquetas en tiempo de ejecución
+            // Limpieza de precios y eliminación de $ huérfanos dentro de las tarjetas
             document.querySelectorAll('.card').forEach(card => {
-                // Eliminar doble signo de dólar ($$) que haya quedado en el contenido
-                card.innerHTML = card.innerHTML.replace(/$s*$/g, '$');
+                // Eliminar $ huérfanos en el HTML interno
+                card.innerHTML = card.innerHTML
+                    .replace(/</a>s*$+/gi, '</a>')
+                    .replace(/$+s*</div>/gi, '</div>')
+                    .replace(/$s*$/g, '$');
+
+                // Eliminar nodos de texto que contengan únicamente el carácter '$'
+                const removeDollarNodes = (element) => {
+                    Array.from(element.childNodes).forEach(node => {
+                        if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() === '$') {
+                            node.remove();
+                        } else if (node.nodeType === Node.ELEMENT_NODE) {
+                            removeDollarNodes(node);
+                        }
+                    });
+                };
+                removeDollarNodes(card);
 
                 // Asegurar clase de badge si el elemento con texto "Amazon" no la tenía asignada
                 const existingBadge = card.querySelector('.badge-store, .badge-amazon, .store-badge, .amazon-badge');
@@ -533,6 +539,15 @@
                     if (el) el.classList.add('badge-amazon');
                 }
             });
+
+            // Limpieza de nodos de texto huérfanos ($ fuera de las tarjetas) dentro del grid
+            if (cardsContainer) {
+                Array.from(cardsContainer.childNodes).forEach(node => {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        node.remove();
+                    }
+                });
+            }
 
             // Safe Storage wrapper para evitar crashes en navegadores restringidos
             function getStorage(key) {
