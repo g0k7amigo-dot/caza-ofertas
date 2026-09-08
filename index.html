@@ -18,8 +18,8 @@
     <style>
         :root {
             --primary: #0f172a;
-            --accent: #f59e0b;
-            --accent-hover: #d97706;
+            --accent: #ff9900;
+            --accent-hover: #e68a00;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
@@ -54,12 +54,12 @@
         .logo span { color: var(--accent); }
 
         .banner-alert { 
-            background-color: #e0f2fe; 
+            background-color: #f0f9ff; 
             color: #0369a1; 
             text-align: center; 
             padding: 8px 15px; 
             font-size: 0.85rem; 
-            border-bottom: 1px solid #bae6fd; 
+            border-bottom: 1px solid #e0f2fe; 
         }
 
         .nav-wrapper { 
@@ -153,7 +153,7 @@
         .filter-chip.active { background: #0284c7; color: #ffffff; border-color: #0284c7; }
 
         .main-container { max-width: 1200px; margin: 25px auto; padding: 0 15px; flex: 1; width: 100%; }
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
         
         .card { 
             background: var(--card-bg); 
@@ -164,27 +164,65 @@
             flex-direction: column; 
             justify-content: space-between; 
             position: relative; 
-            transition: transform 0.2s; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
-        .card:hover { transform: translateY(-4px); }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); }
+        
+        /* Etiqueta de la tienda (Amazon) - Esquina superior izquierda */
+        .badge-store, .badge-amazon { 
+            position: absolute; 
+            top: 10px; 
+            left: 10px; 
+            background: #000000; 
+            color: #ffffff; 
+            padding: 3px 8px; 
+            font-size: 0.72rem; 
+            font-weight: 800; 
+            border-radius: 5px; 
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            z-index: 2; 
+        }
+
+        /* Etiqueta de descuento - Esquina superior derecha */
         .badge-discount { 
             position: absolute; 
             top: 10px; 
             right: 10px; 
             background: #ef4444; 
-            color: white; 
-            padding: 4px 8px; 
-            font-size: 0.8rem; 
+            color: #ffffff; 
+            padding: 3px 8px; 
+            font-size: 0.78rem; 
             font-weight: 700; 
-            border-radius: 6px; 
+            border-radius: 5px; 
             z-index: 2; 
         }
-        .img-container { width: 100%; height: 190px; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 15px; }
+
+        .img-container { width: 100%; height: 190px; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 15px; position: relative; }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        
         .card-body { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
-        .title { 
-            font-size: 0.9rem; 
+        
+        /* Píldoras/Chips de categorías dentro de la tarjeta */
+        .card-tags { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+        .tag-chip { 
+            font-size: 0.7rem; 
             font-weight: 600; 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            background: #f1f5f9; 
+            color: #475569; 
+        }
+        .tag-chip.primary { 
+            background: #e0f2fe; 
+            color: #0369a1; 
+        }
+
+        .title { 
+            font-size: 0.88rem; 
+            font-weight: 700; 
+            color: var(--text-main);
             margin-bottom: 12px; 
             display: -webkit-box; 
             -webkit-line-clamp: 2; 
@@ -192,19 +230,23 @@
             overflow: hidden; 
             line-height: 1.35; 
         }
+        
         .price-container { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
         .old-price { text-decoration: line-through; color: var(--text-muted); font-size: 0.85rem; }
-        .current-price { font-size: 1.2rem; font-weight: 700; color: #16a34a; }
+        .current-price { font-size: 1.25rem; font-weight: 800; color: #16a34a; }
+        
         .btn { 
             display: block; 
             width: 100%; 
             background-color: var(--accent); 
-            color: var(--primary); 
+            color: #000000; 
             text-align: center; 
-            padding: 9px 0; 
+            padding: 10px 0; 
             border-radius: 8px; 
             text-decoration: none; 
-            font-weight: 700; 
+            font-weight: 800; 
+            font-size: 0.9rem;
+            transition: background 0.2s;
         }
         .btn:hover { background-color: var(--accent-hover); }
 
@@ -289,7 +331,7 @@
             display: inline-block;
             width: 100%;
             background-color: var(--accent);
-            color: var(--primary);
+            color: #000000;
             border: none;
             padding: 12px 20px;
             font-size: 1rem;
@@ -322,12 +364,15 @@
             }
 
             .card { border-radius: 8px; }
-            .badge-discount { top: 6px; right: 6px; font-size: 0.68rem; padding: 2px 5px; border-radius: 4px; }
+            .badge-store, .badge-amazon { top: 6px; left: 6px; font-size: 0.65rem; padding: 2px 5px; border-radius: 4px; }
+            .badge-discount { top: 6px; right: 6px; font-size: 0.65rem; padding: 2px 5px; border-radius: 4px; }
             .img-container { height: 130px; padding: 8px; }
             .card-body { padding: 10px; }
-            .title { font-size: 0.8rem; margin-bottom: 8px; line-height: 1.3; -webkit-line-clamp: 2; }
+            .card-tags { gap: 4px; margin-bottom: 6px; }
+            .tag-chip { font-size: 0.62rem; padding: 1px 5px; }
+            .title { font-size: 0.78rem; margin-bottom: 8px; line-height: 1.3; -webkit-line-clamp: 2; }
             .price-container { gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
-            .old-price { font-size: 0.75rem; }
+            .old-price { font-size: 0.72rem; }
             .current-price { font-size: 1.05rem; }
             .btn { padding: 8px 0; font-size: 0.82rem; border-radius: 6px; }
 
@@ -343,7 +388,7 @@
     </header>
 
     <div class="banner-alert">
-        ℹ️ Selección diaria de mejores ofertas actualizadas.
+        ℹ️ Precios de referencia. Envíos confirmados disponibles para Colombia
     </div>
 
     <div class="nav-wrapper">
