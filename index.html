@@ -390,21 +390,21 @@
     </div>
   </div>
 
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="cargadores">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="baterías externas">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-10%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/61CoCFHXAaL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Portable Charger with Built In Cables, 10000mAh 22.5W Max High-Speed Charging Power Bank with 4 Outputs 2 Inputs, External Travel Battery Pack for iPhones Android, iPad (Pearl White)">
+      <img src="https://m.media-amazon.com/images/I/61CoCFHXAaL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Portable Charger with Built in Cables, 10000mAh 22.5W Max High-Speed Charging Power Bank with 4 Outputs 2 Inputs, External Travel Battery Pack for iPhones Android, iPad (Pearl White)">
     </div>
 
     <div class="card-body">
       <div>
         <div class="tags">
           <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cargadores</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Baterías Externas</span>
         </div>
-        <h2 class="title">Portable Charger with Built In Cables, 10000mAh 22.5W Max High-Speed Charging Power Bank with 4 Outputs 2 Inputs, External Travel Battery Pack for iPhones Android, iPad (Pearl White)</h2>
+        <h2 class="title">Portable Charger with Built in Cables, 10000mAh 22.5W Max High-Speed Charging Power Bank with 4 Outputs 2 Inputs, External Travel Battery Pack for iPhones Android, iPad (Pearl White)</h2>
       </div>
       <div>
         <div class="price-container">
@@ -556,20 +556,9 @@
                 noResults.style.display = visibleCount === 0 ? 'block' : 'none';
             }
 
-            const privacyText = `
-                <p>En <strong>Cazador de Ofertas</strong>, valoramos su privacidad y nos comprometemos a ser transparentes sobre la información que recopilamos.</p>
-                <p><strong>1. Recopilación de Datos Personales:</strong> Este sitio web opera como un portal informativo de ofertas y afiliados. No solicitamos, almacenamos ni procesamos datos personales identificables (como nombres, direcciones de correo o datos bancarios).</p>
-                <p><strong>2. Uso de Google Analytics y Cookies:</strong> Utilizamos Google Analytics (servicio de análisis web de Google LLC) mediante la etiqueta GT-G-YGRPPFB9BG para recopilar métricas anónimas de navegación (tales como páginas visitadas, tiempo de permanencia, tipo de dispositivo y ubicación geográfica aproximada). Esto se realiza mediante cookies de terceros con el único propósito de evaluar el tráfico y optimizar la experiencia de usuario.</p>
-                <p><strong>3. Enlaces de Afiliados de Terceros:</strong> Al hacer clic en un producto, será redirigido a Amazon.com. Cualquier compra efectuada se realiza bajo los servidores, cookies y políticas de privacidad propias de Amazon.</p>
-            `;
+            const privacyText = '<p>En <strong>Cazador de Ofertas</strong>, valoramos su privacidad y nos comprometemos a ser transparentes sobre la información que recopilamos.</p><p><strong>1. Recopilación de Datos Personales:</strong> Este sitio web opera como un portal informativo de ofertas y afiliados. No solicitamos, almacenamos ni procesamos datos personales identificables (como nombres, direcciones de correo o datos bancarios).</p><p><strong>2. Uso de Google Analytics y Cookies:</strong> Utilizamos Google Analytics (servicio de análisis web de Google LLC) mediante la etiqueta GT-G-YGRPPFB9BG para recopilar métricas anónimas de navegación (tales como páginas visitadas, tiempo de permanencia, tipo de dispositivo y ubicación geográfica aproximada). Esto se realiza mediante cookies de terceros con el único propósito de evaluar el tráfico y optimizar la experiencia de usuario.</p><p><strong>3. Enlaces de Afiliados de Terceros:</strong> Al hacer clic en un producto, será redirigido a Amazon.com. Cualquier compra efectuada se realiza bajo los servidores, cookies y políticas de privacidad propias de Amazon.</p>';
 
-            const termsText = `
-                <p>Bienvenido a <strong>Cazador de Ofertas</strong>. Al hacer clic en "Aceptar y Continuar" o interactuar con nuestro sitio web, usted acepta cumplir con los siguientes términos:</p>
-                <p><strong>1. Declaración de Afiliación de Amazon:</strong> Participamos en el Programa de Afiliados de Amazon Services LLC, un programa publicitario diseñado para que sitios web obtengan comisiones por compras cualificadas al enlazar a Amazon.com.</p>
-                <p><strong>2. Consentimiento de Analítica Web:</strong> El usuario reconoce y acepta el uso de Google Analytics para el rastreo y análisis estadístico anónimo de la interacción en el sitio web.</p>
-                <p><strong>3. Precios y Disponibilidad:</strong> Los precios, descuentos y stock exhibidos son orientativos y corresponden al momento de la publicación. La oferta final se confirma directamente en el sitio de Amazon al momento de efectuar la compra.</p>
-                <p><strong>4. Exención de Responsabilidad:</strong> No prestamos servicios de venta directa, envío, soporte postventa ni gestión de garantías. Todas las dudas sobre un pedido deben tramitarse directamente con Amazon.</p>
-            `;
+            const termsText = '<p>Bienvenido a <strong>Cazador de Ofertas</strong>. Al hacer clic en "Aceptar y Continuar" o interactuar con nuestro sitio web, usted acepta cumplir con los siguientes términos:</p><p><strong>1. Declaración de Afiliación de Amazon:</strong> Participamos en el Programa de Afiliados de Amazon Services LLC, un programa publicitario diseñado para que sitios web obtengan comisiones por compras cualificadas al enlazar a Amazon.com.</p><p><strong>2. Consentimiento de Analítica Web:</strong> El usuario reconoce y acepta el uso de Google Analytics para el rastreo y análisis estadístico anónimo de la interacción en el sitio web.</p><p><strong>3. Precios y Disponibilidad:</strong> Los precios, descuentos y stock exhibidos son orientativos y corresponden al momento de la publicación. La oferta final se confirma directamente en el sitio de Amazon al momento de efectuar la compra.</p><p><strong>4. Exención de Responsabilidad:</strong> No prestamos servicios de venta directa, envío, soporte postventa ni gestión de garantías. Todas las dudas sobre un pedido deben tramitarse directamente con Amazon.</p>';
 
             const modalConsent = document.getElementById('modal-consent');
             const btnAcceptConsent = document.getElementById('btn-accept-consent');
