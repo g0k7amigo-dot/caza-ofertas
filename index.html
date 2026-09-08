@@ -174,7 +174,6 @@
         }
         .card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); }
         
-        /* Badge de la tienda Amazon con estilo elegante de píldora */
         .badge-store, .badge-amazon, .store-badge, .amazon-badge { 
             position: absolute; 
             top: 10px; 
@@ -443,21 +442,21 @@
     </div>
   </div>
 
-  <div class="card" data-cat-general="tecnología" data-cat-especifica="baterías externas">
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cargadores portátiles">
     <span class="platform-tag amazon">Amazon</span>
     <span class="badge-discount">-10%</span>
 
     <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/61CoCFHXAaL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Portable Charger with Built in Cables, 10000mAh 22.5W Max High-Speed Charging Power Bank with 4 Outputs 2 Inputs, External Travel Battery Pack for iPhones Android, iPad (Pearl White)">
+      <img src="https://m.media-amazon.com/images/I/61CoCFHXAaL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Portable Charger with Built in Cables，10000mAh 22.5W Max High-Speed Charging Power Bank with 4 Outputs 2 Inputs,External Travel Battery Pack for iPhones Android,iPad (Pearl White)">
     </div>
 
     <div class="card-body">
       <div>
         <div class="tags">
           <span class="tag">Tecnología</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Baterías Externas</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cargadores Portátiles</span>
         </div>
-        <h2 class="title">Portable Charger with Built in Cables, 10000mAh 22.5W Max High-Speed Charging Power Bank with 4 Outputs 2 Inputs, External Travel Battery Pack for iPhones Android, iPad (Pearl White)</h2>
+        <h2 class="title">Portable Charger with Built in Cables，10000mAh 22.5W Max High-Speed Charging Power Bank with 4 Outputs 2 Inputs,External Travel Battery Pack for iPhones Android,iPad (Pearl White)</h2>
       </div>
       <div>
         <div class="price-container">
@@ -521,6 +520,32 @@
     </div>
   </div>
 
+  <div class="card" data-cat-general="tecnología" data-cat-especifica="cargadores portátiles">
+    <span class="platform-tag amazon">Amazon</span>
+    <span class="badge-discount">-10%</span>
+
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/51FpcXCaqmL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Q Magnetic Wireless Portable Charger 10,000mAh, Travel Essentials Power Bank with Built-in Cables & Foldable Stand, External Battery Pack Compatible with iPhone 17/16/15/14/13/12, Apple Watch">
+    </div>
+
+    <div class="card-body">
+      <div>
+        <div class="tags">
+          <span class="tag">Tecnología</span>
+          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Cargadores Portátiles</span>
+        </div>
+        <h2 class="title">Q Magnetic Wireless Portable Charger 10,000mAh, Travel Essentials Power Bank with Built-in Cables & Foldable Stand, External Battery Pack Compatible with iPhone 17/16/15/14/13/12, Apple Watch</h2>
+      </div>
+      <div>
+        <div class="price-container">
+          <span class="old-price">$ 159.960 COP</span>
+          <span class="current-price">$ 143.960 COP</span>
+        </div>
+        <a href="https://www.amazon.com/dp/B0GQBJSHZ8?tag=cazadorofer0a-20" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
+      </div>
+    </div>
+  </div>
+
             <div class="no-results" id="no-results" style="display:none; text-align:center; grid-column:1/-1; padding:40px; color:var(--text-muted);">
                 No se encontraron productos en esta categoría.
             </div>
@@ -562,6 +587,18 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const cardsContainer = document.getElementById('cards-container');
+            const noResults = document.getElementById('no-results');
+
+            // Limpieza de nodos de texto huérfanos ($ fuera de las tarjetas) dentro del grid
+            if (cardsContainer) {
+                Array.from(cardsContainer.childNodes).forEach(node => {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        node.remove();
+                    }
+                });
+            }
+
             // Limpieza de precios y formateo de etiquetas en tiempo de ejecución
             document.querySelectorAll('.card').forEach(card => {
                 // Eliminar doble signo de dólar ($$) que haya quedado en el contenido
@@ -588,20 +625,20 @@
             const arrowRight = document.getElementById('arrow-right');
             const subWrapper = document.getElementById('sub-wrapper');
             const subTrack = document.getElementById('sub-track');
-            const cardsContainer = document.getElementById('cards-container');
-            const noResults = document.getElementById('no-results');
 
             if (arrowLeft && arrowRight && track) {
                 arrowLeft.addEventListener('click', () => track.scrollBy({ left: -200, behavior: 'smooth' }));
                 arrowRight.addEventListener('click', () => track.scrollBy({ left: 200, behavior: 'smooth' }));
             }
 
-            // Aleatorizar tarjetas al cargar
+            // Aleatorizar tarjetas al cargar y limpiar contenedor de nodos huérfanos
             let cards = Array.from(document.querySelectorAll('.card'));
             for (let i = cards.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [cards[i], cards[j]] = [cards[j], cards[i]];
             }
+            
+            cardsContainer.innerHTML = '';
             cards.forEach(card => cardsContainer.appendChild(card));
             if (noResults) cardsContainer.appendChild(noResults);
 
