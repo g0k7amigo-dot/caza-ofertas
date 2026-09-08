@@ -289,6 +289,12 @@
             transition: all 0.3s ease; 
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
+        
+        /* Modal legal por encima del modal de consentimiento */
+        #modal-policy {
+            z-index: 1100;
+        }
+
         .modal-card { 
             background: #ffffff; 
             color: var(--text-main); 
@@ -495,7 +501,7 @@
                 <span class="consent-links-inline" id="link-privacy-inline">Política de Privacidad</span> y nuestros 
                 <span class="consent-links-inline" id="link-terms-inline">Términos y Condiciones</span> antes de continuar.
             </p>
-            <button class="btn-consent" id="btn-accept-consent">Aceptar y Continuar</button>
+            <button class="btn-consent" id="btn-accept-consent" type="button">Aceptar y Continuar</button>
         </div>
     </div>
 
@@ -508,19 +514,17 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        function initApp() {
             const cardsContainer = document.getElementById('cards-container');
             const noResults = document.getElementById('no-results');
 
             // Limpieza de precios y eliminación de $ huérfanos dentro de las tarjetas
             document.querySelectorAll('.card').forEach(card => {
-                // Eliminar $ huérfanos en el HTML interno
                 card.innerHTML = card.innerHTML
                     .replace(/</a>s*$+/gi, '</a>')
                     .replace(/$+s*</div>/gi, '</div>')
                     .replace(/$s*$/g, '$');
 
-                // Eliminar nodos de texto que contengan únicamente el carácter '$'
                 const removeDollarNodes = (element) => {
                     Array.from(element.childNodes).forEach(node => {
                         if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() === '$') {
@@ -532,7 +536,6 @@
                 };
                 removeDollarNodes(card);
 
-                // Asegurar clase de badge si el elemento con texto "Amazon" no la tenía asignada
                 const existingBadge = card.querySelector('.badge-store, .badge-amazon, .store-badge, .amazon-badge');
                 if (!existingBadge) {
                     const el = Array.from(card.querySelectorAll('span, div')).find(node => node.textContent.trim().toLowerCase() === 'amazon');
@@ -540,7 +543,6 @@
                 }
             });
 
-            // Limpieza de nodos de texto huérfanos ($ fuera de las tarjetas) dentro del grid
             if (cardsContainer) {
                 Array.from(cardsContainer.childNodes).forEach(node => {
                     if (node.nodeType === Node.TEXT_NODE) {
@@ -549,7 +551,6 @@
                 });
             }
 
-            // Safe Storage wrapper para evitar crashes en navegadores restringidos
             function getStorage(key) {
                 try { return localStorage.getItem(key); } catch(e) { return null; }
             }
@@ -568,7 +569,6 @@
                 arrowRight.addEventListener('click', () => track.scrollBy({ left: 200, behavior: 'smooth' }));
             }
 
-            // Aleatorizar tarjetas al cargar y limpiar contenedor de nodos huérfanos
             let cards = Array.from(document.querySelectorAll('.card'));
             for (let i = cards.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -581,7 +581,6 @@
 
             cards = document.querySelectorAll('.card');
 
-            // Crear mapa normalizado de subcategorías
             const subCatMap = new Map();
             cards.forEach(card => {
                 const gen = (card.getAttribute('data-cat-general') || '').trim().toLowerCase();
@@ -663,10 +662,8 @@
                 }
             }
 
-            // Filtrado inicial
             filterCards();
 
-            // Textos Modales Legales
             const privacyText = '<p>En <strong>Cazador de Ofertas</strong>, valoramos su privacidad y nos comprometemos a ser transparentes sobre la información que recopilamos.</p><p><strong>1. Recopilación de Datos Personales:</strong> Este sitio web opera como un portal informativo de ofertas y afiliados. No solicitamos, almacenamos ni procesamos datos personales identificables (como nombres, direcciones de correo o datos bancarios).</p><p><strong>2. Uso de Google Analytics y Cookies:</strong> Utilizamos Google Analytics mediante la etiqueta G-YGRPPFB9BG para recopilar métricas anónimas de navegación. Esto se realiza mediante cookies de terceros con el propósito de evaluar el tráfico y optimizar la experiencia de usuario.</p><p><strong>3. Enlaces de Afiliados de Terceros:</strong> Al hacer clic en un producto, será redirigido a Amazon.com. Cualquier compra efectuada se realiza bajo las políticas de privacidad propias de Amazon.</p>';
 
             const termsText = '<p>Bienvenido a <strong>Cazador de Ofertas</strong>. Al interactuar con nuestro sitio web, usted acepta cumplir con los siguientes términos:</p><p><strong>1. Declaración de Afiliación de Amazon:</strong> Participamos en el Programa de Afiliados de Amazon Services LLC, un programa publicitario diseñado para que sitios web obtengan comisiones por compras cualificadas al enlazar a Amazon.com.</p><p><strong>2. Consentimiento de Analítica Web:</strong> El usuario reconoce y acepta el uso de Google Analytics para el análisis estadístico anónimo.</p><p><strong>3. Precios y Disponibilidad:</strong> Los precios y descuentos exhibidos son orientativos. La oferta final se confirma directamente en el sitio de Amazon al momento de efectuar la compra.</p><p><strong>4. Exención de Responsabilidad:</strong> No prestamos servicios de venta directa ni soporte postventa. Todas las consultas sobre un pedido deben tramitarse directamente con Amazon.</p>';
@@ -686,13 +683,17 @@
                 }
             }
 
+            // Comprobar consentimiento previo
             if (getStorage('user_consent_accepted') === 'true') {
                 if (modalConsent) modalConsent.classList.remove('active');
                 document.body.classList.remove('consent-pending');
             }
 
+            // Handler para aceptar consentimiento
             if (btnAcceptConsent) {
-                btnAcceptConsent.addEventListener('click', function() {
+                btnAcceptConsent.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     setStorage('user_consent_accepted', 'true');
                     if (modalConsent) modalConsent.classList.remove('active');
                     document.body.classList.remove('consent-pending');
@@ -704,10 +705,10 @@
             const btnPrivacy = document.getElementById('btn-privacy');
             const btnTerms = document.getElementById('btn-terms');
 
-            if (linkPrivacy) linkPrivacy.addEventListener('click', () => openLegalModal('Política de Privacidad', privacyText));
-            if (linkTerms) linkTerms.addEventListener('click', () => openLegalModal('Términos y Condiciones', termsText));
-            if (btnPrivacy) btnPrivacy.addEventListener('click', () => openLegalModal('Política de Privacidad', privacyText));
-            if (btnTerms) btnTerms.addEventListener('click', () => openLegalModal('Términos y Condiciones', termsText));
+            if (linkPrivacy) linkPrivacy.addEventListener('click', (e) => { e.preventDefault(); openLegalModal('Política de Privacidad', privacyText); });
+            if (linkTerms) linkTerms.addEventListener('click', (e) => { e.preventDefault(); openLegalModal('Términos y Condiciones', termsText); });
+            if (btnPrivacy) btnPrivacy.addEventListener('click', (e) => { e.preventDefault(); openLegalModal('Política de Privacidad', privacyText); });
+            if (btnTerms) btnTerms.addEventListener('click', (e) => { e.preventDefault(); openLegalModal('Términos y Condiciones', termsText); });
 
             if (closeModal) {
                 closeModal.addEventListener('click', () => modalPolicy.classList.remove('active'));
@@ -717,7 +718,14 @@
                     if (e.target === modalPolicy) modalPolicy.classList.remove('active');
                 });
             }
-        });
+        }
+
+        // Ejecución segura sin depender de eventos DOM no disparados
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
     </script>
 </body>
 </html>
