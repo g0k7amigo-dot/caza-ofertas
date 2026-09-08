@@ -133,11 +133,15 @@
             max-height: 0; 
             opacity: 0; 
             overflow: hidden; 
-            transition: all 0.3s ease; 
+            transition: all 0.3s ease-in-out; 
             background: #f8fafc; 
             border-top: 1px dashed var(--border-color); 
         }
-        .sub-categories-wrapper.open { max-height: 140px; opacity: 1; padding: 14px 25px; }
+        .sub-categories-wrapper.open { 
+            max-height: 500px; 
+            opacity: 1; 
+            padding: 14px 25px; 
+        }
         .sub-header { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #0284c7; margin-bottom: 10px; }
         .sub-categories-track { display: flex; gap: 8px; flex-wrap: wrap; }
         .filter-chip { 
@@ -149,6 +153,7 @@
             cursor: pointer; 
             font-size: 0.83rem; 
             font-weight: 600; 
+            transition: all 0.2s;
         }
         .filter-chip.active { background: #0284c7; color: #ffffff; border-color: #0284c7; }
 
@@ -169,7 +174,6 @@
         }
         .card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); }
         
-        /* Etiqueta de la tienda (Amazon) - Esquina superior izquierda */
         .badge-store, .badge-amazon { 
             position: absolute; 
             top: 10px; 
@@ -185,7 +189,6 @@
             z-index: 2; 
         }
 
-        /* Etiqueta de descuento - Esquina superior derecha */
         .badge-discount { 
             position: absolute; 
             top: 10px; 
@@ -204,7 +207,6 @@
         
         .card-body { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
         
-        /* Píldoras/Chips de categorías dentro de la tarjeta */
         .card-tags { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
         .tag-chip { 
             font-size: 0.7rem; 
@@ -393,11 +395,11 @@
 
     <div class="nav-wrapper">
         <div class="carousel-container">
-            <button class="nav-arrow left" id="arrow-left">&lt;</button>
+            <button class="nav-arrow left" id="arrow-left" aria-label="Anterior">&lt;</button>
             <div class="carousel-track" id="main-carousel">
                 <button class="filter-btn active" data-filter-gen="all">Todas las secciones</button><button class="filter-btn" data-filter-gen="hogar">Hogar</button><button class="filter-btn" data-filter-gen="tecnología">Tecnología</button>
             </div>
-            <button class="nav-arrow right" id="arrow-right">&gt;</button>
+            <button class="nav-arrow right" id="arrow-right" aria-label="Siguiente">&gt;</button>
         </div>
 
         <div class="sub-categories-wrapper" id="sub-wrapper">
@@ -528,13 +530,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Safe Storage wrapper para evitar crashes en navegadores restringidos
+            function getStorage(key) {
+                try { return localStorage.getItem(key); } catch(e) { return null; }
+            }
+            function setStorage(key, val) {
+                try { localStorage.setItem(key, val); } catch(e) {}
+            }
+
             const track = document.getElementById('main-carousel');
             const arrowLeft = document.getElementById('arrow-left');
             const arrowRight = document.getElementById('arrow-right');
             const subWrapper = document.getElementById('sub-wrapper');
             const subTrack = document.getElementById('sub-track');
             const cardsContainer = document.getElementById('cards-container');
-            let cards = document.querySelectorAll('.card');
             const noResults = document.getElementById('no-results');
 
             if (arrowLeft && arrowRight && track) {
@@ -542,23 +551,28 @@
                 arrowRight.addEventListener('click', () => track.scrollBy({ left: 200, behavior: 'smooth' }));
             }
 
-            const cardsArray = Array.from(cards);
-            for (let i = cardsArray.length - 1; i > 0; i--) {
+            // Aleatorizar tarjetas al cargar
+            let cards = Array.from(document.querySelectorAll('.card'));
+            for (let i = cards.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [cardsArray[i], cardsArray[j]] = [cardsArray[j], cardsArray[i]];
+                [cards[i], cards[j]] = [cards[j], cards[i]];
             }
-            cardsArray.forEach(card => cardsContainer.appendChild(card));
+            cards.forEach(card => cardsContainer.appendChild(card));
             if (noResults) cardsContainer.appendChild(noResults);
-            
+
             cards = document.querySelectorAll('.card');
 
+            // Crear mapa normalizado de subcategorías
             const subCatMap = new Map();
             cards.forEach(card => {
                 const gen = (card.getAttribute('data-cat-general') || '').trim().toLowerCase();
                 const spec = (card.getAttribute('data-cat-especifica') || '').trim();
                 if (gen && spec) {
-                    if (!subCatMap.has(gen)) subCatMap.set(gen, new Set());
-                    subCatMap.get(gen).add(spec);
+                    if (!subCatMap.has(gen)) subCatMap.set(gen, new Map());
+                    const specKey = spec.toLowerCase();
+                    if (!subCatMap.get(gen).has(specKey)) {
+                        subCatMap.get(gen).set(specKey, spec);
+                    }
                 }
             });
 
@@ -570,7 +584,7 @@
                 if (btnGen) {
                     document.querySelectorAll('[data-filter-gen]').forEach(b => b.classList.remove('active'));
                     btnGen.classList.add('active');
-                    activeGen = btnGen.getAttribute('data-filter-gen').toLowerCase();
+                    activeGen = (btnGen.getAttribute('data-filter-gen') || 'all').trim().toLowerCase();
                     activeSpec = 'all';
                     renderSubCategories(activeGen);
                     filterCards();
@@ -580,7 +594,7 @@
                 if (btnSpec) {
                     document.querySelectorAll('[data-filter-spec]').forEach(b => b.classList.remove('active'));
                     btnSpec.classList.add('active');
-                    activeSpec = btnSpec.getAttribute('data-filter-spec').toLowerCase();
+                    activeSpec = (btnSpec.getAttribute('data-filter-spec') || 'all').trim().toLowerCase();
                     filterCards();
                 }
             });
@@ -592,16 +606,16 @@
                     return;
                 }
 
-                const specsSet = subCatMap.get(genCategory);
-                if (!specsSet || specsSet.size === 0) {
+                const specsMap = subCatMap.get(genCategory);
+                if (!specsMap || specsMap.size === 0) {
                     subWrapper.classList.remove('open');
                     return;
                 }
 
                 let html = '<button class="filter-chip active" data-filter-spec="all">Todos los productos</button>';
-                specsSet.forEach(spec => {
-                    const specCapitalized = spec.charAt(0).toUpperCase() + spec.slice(1);
-                    html += '<button class="filter-chip" data-filter-spec="' + spec.toLowerCase() + '">' + specCapitalized + '</button>';
+                specsMap.forEach((originalName, specKey) => {
+                    const formattedName = originalName.charAt(0).toUpperCase() + originalName.slice(1);
+                    html += '<button class="filter-chip" data-filter-spec="' + specKey + '">' + formattedName + '</button>';
                 });
 
                 subTrack.innerHTML = html;
@@ -611,8 +625,8 @@
             function filterCards() {
                 let visibleCount = 0;
                 cards.forEach(card => {
-                    const cardGen = (card.getAttribute('data-cat-general') || '').toLowerCase();
-                    const cardSpec = (card.getAttribute('data-cat-especifica') || '').toLowerCase();
+                    const cardGen = (card.getAttribute('data-cat-general') || '').trim().toLowerCase();
+                    const cardSpec = (card.getAttribute('data-cat-especifica') || '').trim().toLowerCase();
 
                     const matchGen = (activeGen === 'all' || cardGen === activeGen);
                     const matchSpec = (activeSpec === 'all' || cardSpec === activeSpec);
@@ -624,12 +638,19 @@
                         card.style.display = 'none';
                     }
                 });
-                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+
+                if (noResults) {
+                    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+                }
             }
 
-            const privacyText = '<p>En <strong>Cazador de Ofertas</strong>, valoramos su privacidad y nos comprometemos a ser transparentes sobre la información que recopilamos.</p><p><strong>1. Recopilación de Datos Personales:</strong> Este sitio web opera como un portal informativo de ofertas y afiliados. No solicitamos, almacenamos ni procesamos datos personales identificables (como nombres, direcciones de correo o datos bancarios).</p><p><strong>2. Uso de Google Analytics y Cookies:</strong> Utilizamos Google Analytics (servicio de análisis web de Google LLC) mediante la etiqueta GT-G-YGRPPFB9BG para recopilar métricas anónimas de navegación (tales como páginas visitadas, tiempo de permanencia, tipo de dispositivo y ubicación geográfica aproximada). Esto se realiza mediante cookies de terceros con el único propósito de evaluar el tráfico y optimizar la experiencia de usuario.</p><p><strong>3. Enlaces de Afiliados de Terceros:</strong> Al hacer clic en un producto, será redirigido a Amazon.com. Cualquier compra efectuada se realiza bajo los servidores, cookies y políticas de privacidad propias de Amazon.</p>';
+            // Filtrado inicial
+            filterCards();
 
-            const termsText = '<p>Bienvenido a <strong>Cazador de Ofertas</strong>. Al hacer clic en "Aceptar y Continuar" o interactuar con nuestro sitio web, usted acepta cumplir con los siguientes términos:</p><p><strong>1. Declaración de Afiliación de Amazon:</strong> Participamos en el Programa de Afiliados de Amazon Services LLC, un programa publicitario diseñado para que sitios web obtengan comisiones por compras cualificadas al enlazar a Amazon.com.</p><p><strong>2. Consentimiento de Analítica Web:</strong> El usuario reconoce y acepta el uso de Google Analytics para el rastreo y análisis estadístico anónimo de la interacción en el sitio web.</p><p><strong>3. Precios y Disponibilidad:</strong> Los precios, descuentos y stock exhibidos son orientativos y corresponden al momento de la publicación. La oferta final se confirma directamente en el sitio de Amazon al momento de efectuar la compra.</p><p><strong>4. Exención de Responsabilidad:</strong> No prestamos servicios de venta directa, envío, soporte postventa ni gestión de garantías. Todas las dudas sobre un pedido deben tramitarse directamente con Amazon.</p>';
+            // Textos Modales Legales
+            const privacyText = '<p>En <strong>Cazador de Ofertas</strong>, valoramos su privacidad y nos comprometemos a ser transparentes sobre la información que recopilamos.</p><p><strong>1. Recopilación de Datos Personales:</strong> Este sitio web opera como un portal informativo de ofertas y afiliados. No solicitamos, almacenamos ni procesamos datos personales identificables (como nombres, direcciones de correo o datos bancarios).</p><p><strong>2. Uso de Google Analytics y Cookies:</strong> Utilizamos Google Analytics mediante la etiqueta G-YGRPPFB9BG para recopilar métricas anónimas de navegación. Esto se realiza mediante cookies de terceros con el propósito de evaluar el tráfico y optimizar la experiencia de usuario.</p><p><strong>3. Enlaces de Afiliados de Terceros:</strong> Al hacer clic en un producto, será redirigido a Amazon.com. Cualquier compra efectuada se realiza bajo las políticas de privacidad propias de Amazon.</p>';
+
+            const termsText = '<p>Bienvenido a <strong>Cazador de Ofertas</strong>. Al interactuar con nuestro sitio web, usted acepta cumplir con los siguientes términos:</p><p><strong>1. Declaración de Afiliación de Amazon:</strong> Participamos en el Programa de Afiliados de Amazon Services LLC, un programa publicitario diseñado para que sitios web obtengan comisiones por compras cualificadas al enlazar a Amazon.com.</p><p><strong>2. Consentimiento de Analítica Web:</strong> El usuario reconoce y acepta el uso de Google Analytics para el análisis estadístico anónimo.</p><p><strong>3. Precios y Disponibilidad:</strong> Los precios y descuentos exhibidos son orientativos. La oferta final se confirma directamente en el sitio de Amazon al momento de efectuar la compra.</p><p><strong>4. Exención de Responsabilidad:</strong> No prestamos servicios de venta directa ni soporte postventa. Todas las consultas sobre un pedido deben tramitarse directamente con Amazon.</p>';
 
             const modalConsent = document.getElementById('modal-consent');
             const btnAcceptConsent = document.getElementById('btn-accept-consent');
@@ -639,32 +660,44 @@
             const modalText = document.getElementById('modal-text');
 
             function openLegalModal(title, content) {
-                modalTitle.textContent = title;
-                modalText.innerHTML = content;
-                modalPolicy.classList.add('active');
+                if (modalTitle && modalText && modalPolicy) {
+                    modalTitle.textContent = title;
+                    modalText.innerHTML = content;
+                    modalPolicy.classList.add('active');
+                }
             }
 
-            if (localStorage.getItem('user_consent_accepted') === 'true') {
-                modalConsent.classList.remove('active');
+            if (getStorage('user_consent_accepted') === 'true') {
+                if (modalConsent) modalConsent.classList.remove('active');
                 document.body.classList.remove('consent-pending');
             }
 
-            btnAcceptConsent.addEventListener('click', function() {
-                localStorage.setItem('user_consent_accepted', 'true');
-                modalConsent.classList.remove('active');
-                document.body.classList.remove('consent-pending');
-            });
+            if (btnAcceptConsent) {
+                btnAcceptConsent.addEventListener('click', function() {
+                    setStorage('user_consent_accepted', 'true');
+                    if (modalConsent) modalConsent.classList.remove('active');
+                    document.body.classList.remove('consent-pending');
+                });
+            }
 
-            document.getElementById('link-privacy-inline').addEventListener('click', () => openLegalModal('Política de Privacidad', privacyText));
-            document.getElementById('link-terms-inline').addEventListener('click', () => openLegalModal('Términos y Condiciones', termsText));
+            const linkPrivacy = document.getElementById('link-privacy-inline');
+            const linkTerms = document.getElementById('link-terms-inline');
+            const btnPrivacy = document.getElementById('btn-privacy');
+            const btnTerms = document.getElementById('btn-terms');
 
-            document.getElementById('btn-privacy').addEventListener('click', () => openLegalModal('Política de Privacidad', privacyText));
-            document.getElementById('btn-terms').addEventListener('click', () => openLegalModal('Términos y Condiciones', termsText));
+            if (linkPrivacy) linkPrivacy.addEventListener('click', () => openLegalModal('Política de Privacidad', privacyText));
+            if (linkTerms) linkTerms.addEventListener('click', () => openLegalModal('Términos y Condiciones', termsText));
+            if (btnPrivacy) btnPrivacy.addEventListener('click', () => openLegalModal('Política de Privacidad', privacyText));
+            if (btnTerms) btnTerms.addEventListener('click', () => openLegalModal('Términos y Condiciones', termsText));
 
-            closeModal.addEventListener('click', () => modalPolicy.classList.remove('active'));
-            modalPolicy.addEventListener('click', (e) => {
-                if (e.target === modalPolicy) modalPolicy.classList.remove('active');
-            });
+            if (closeModal) {
+                closeModal.addEventListener('click', () => modalPolicy.classList.remove('active'));
+            }
+            if (modalPolicy) {
+                modalPolicy.addEventListener('click', (e) => {
+                    if (e.target === modalPolicy) modalPolicy.classList.remove('active');
+                });
+            }
         });
     </script>
 </body>
