@@ -578,7 +578,7 @@
                 <span class="consent-links-inline" id="link-privacy-inline">Política de Privacidad</span> y nuestros 
                 <span class="consent-links-inline" id="link-terms-inline">Términos y Condiciones</span> antes de continuar.
             </p>
-            <button class="btn-consent" id="btn-accept-consent" onclick="closeConsentModal()" type="button">Aceptar y Continuar</button>
+            <button class="btn-consent" id="btn-accept-consent" type="button">Aceptar y Continuar</button>
         </div>
     </div>
 
@@ -614,16 +614,26 @@
                 }
             } catch(e) {}
 
+            // Botón de aceptar (con addEventListener en vez de onclick inline, más robusto)
+            const btnAccept = document.getElementById('btn-accept-consent');
+            if (btnAccept) {
+                btnAccept.addEventListener('click', closeConsentModal);
+            }
+
             const cardsContainer = document.getElementById('cards-container');
             const noResults = document.getElementById('no-results');
 
             // Limpieza de precios con validación defensiva contra valores nulos
+            // (Las barras invertidas van dobles porque este bloque vive dentro de un
+            // template literal exterior en el código de n8n; con una sola barra,
+            // el template literal exterior las "consume" y el <script> del navegador
+            // queda con una sintaxis rota -> ningún JS de la página se ejecuta.)
             document.querySelectorAll('.card').forEach(card => {
                 card.innerHTML = card.innerHTML
-                    .replace(/</a>s*$+/gi, '</a>')
-                    .replace(/$+s*</div>/gi, '</div>')
-                    .replace(/</div>s*$+/gi, '</div>')
-                    .replace(/$s*$/g, '$');
+                    .replace(/<\/a>\s*\$+/gi, '</a>')
+                    .replace(/\$+\s*<\/div>/gi, '</div>')
+                    .replace(/<\/div>\s*\$+/gi, '</div>')
+                    .replace(/\$\s*\$/g, '$');
 
                 const removeDollarNodes = (element) => {
                     if (!element || !element.childNodes) return;
