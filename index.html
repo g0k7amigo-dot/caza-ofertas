@@ -288,9 +288,8 @@
             visibility: hidden; 
             transition: all 0.3s ease; 
         }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-overlay.active { opacity: 1; visibility: visible; display: flex !important; }
         
-        /* Modal legal por encima del modal de consentimiento */
         #modal-policy {
             z-index: 1100;
         }
@@ -501,7 +500,7 @@
                 <span class="consent-links-inline" id="link-privacy-inline">Política de Privacidad</span> y nuestros 
                 <span class="consent-links-inline" id="link-terms-inline">Términos y Condiciones</span> antes de continuar.
             </p>
-            <button class="btn-consent" id="btn-accept-consent" type="button">Aceptar y Continuar</button>
+            <button class="btn-consent" id="btn-accept-consent" onclick="closeConsentModal()" type="button">Aceptar y Continuar</button>
         </div>
     </div>
 
@@ -514,22 +513,46 @@
     </div>
 
     <script>
+        // Función global directa: Se ejecuta SÍ O SÍ sin importar si hay errores en otras partes
+        function closeConsentModal() {
+            try {
+                localStorage.setItem('user_consent_accepted', 'true');
+            } catch(e) {}
+
+            const modalConsent = document.getElementById('modal-consent');
+            if (modalConsent) {
+                modalConsent.classList.remove('active');
+                modalConsent.style.setProperty('display', 'none', 'important');
+            }
+            document.body.classList.remove('consent-pending');
+            document.body.style.overflow = 'auto';
+        }
+
         function initApp() {
+            // Verificar si ya aceptó previamente
+            try {
+                if (localStorage.getItem('user_consent_accepted') === 'true') {
+                    closeConsentModal();
+                }
+            } catch(e) {}
+
             const cardsContainer = document.getElementById('cards-container');
             const noResults = document.getElementById('no-results');
 
-            // Limpieza de precios y eliminación de $ huérfanos dentro de las tarjetas
+            // Limpieza de precios con validación defensiva contra valores nulos
             document.querySelectorAll('.card').forEach(card => {
                 card.innerHTML = card.innerHTML
                     .replace(/</a>s*$+/gi, '</a>')
                     .replace(/$+s*</div>/gi, '</div>')
+                    .replace(/</div>s*$+/gi, '</div>')
                     .replace(/$s*$/g, '$');
 
                 const removeDollarNodes = (element) => {
+                    if (!element || !element.childNodes) return;
                     Array.from(element.childNodes).forEach(node => {
-                        if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() === '$') {
+                        if (node && node.nodeType === Node.TEXT_NODE && node.nodeValue && node.nodeValue.trim() === '$') {
                             node.remove();
-                        } else if (node.nodeType === Node.ELEMENT_NODE) {
+                        } else if (node && node.nodeType === Node.ELEMENT_NODE) {
                             removeDollarNodes(node);
                         }
                     });
@@ -551,13 +574,6 @@
                 });
             }
 
-            function getStorage(key) {
-                try { return localStorage.getItem(key); } catch(e) { return null; }
-            }
-            function setStorage(key, val) {
-                try { localStorage.setItem(key, val); } catch(e) {}
-            }
-
             const track = document.getElementById('main-carousel');
             const arrowLeft = document.getElementById('arrow-left');
             const arrowRight = document.getElementById('arrow-right');
@@ -575,9 +591,11 @@
                 [cards[i], cards[j]] = [cards[j], cards[i]];
             }
             
-            cardsContainer.innerHTML = '';
-            cards.forEach(card => cardsContainer.appendChild(card));
-            if (noResults) cardsContainer.appendChild(noResults);
+            if (cardsContainer) {
+                cardsContainer.innerHTML = '';
+                cards.forEach(card => cardsContainer.appendChild(card));
+                if (noResults) cardsContainer.appendChild(noResults);
+            }
 
             cards = document.querySelectorAll('.card');
 
@@ -618,6 +636,7 @@
             });
 
             function renderSubCategories(genCategory) {
+                if (!subTrack || !subWrapper) return;
                 subTrack.innerHTML = '';
                 if (genCategory === 'all' || !subCatMap.has(genCategory)) {
                     subWrapper.classList.remove('open');
@@ -668,8 +687,6 @@
 
             const termsText = '<p>Bienvenido a <strong>Cazador de Ofertas</strong>. Al interactuar con nuestro sitio web, usted acepta cumplir con los siguientes términos:</p><p><strong>1. Declaración de Afiliación de Amazon:</strong> Participamos en el Programa de Afiliados de Amazon Services LLC, un programa publicitario diseñado para que sitios web obtengan comisiones por compras cualificadas al enlazar a Amazon.com.</p><p><strong>2. Consentimiento de Analítica Web:</strong> El usuario reconoce y acepta el uso de Google Analytics para el análisis estadístico anónimo.</p><p><strong>3. Precios y Disponibilidad:</strong> Los precios y descuentos exhibidos son orientativos. La oferta final se confirma directamente en el sitio de Amazon al momento de efectuar la compra.</p><p><strong>4. Exención de Responsabilidad:</strong> No prestamos servicios de venta directa ni soporte postventa. Todas las consultas sobre un pedido deben tramitarse directamente con Amazon.</p>';
 
-            const modalConsent = document.getElementById('modal-consent');
-            const btnAcceptConsent = document.getElementById('btn-accept-consent');
             const modalPolicy = document.getElementById('modal-policy');
             const closeModal = document.getElementById('close-modal');
             const modalTitle = document.getElementById('modal-title');
@@ -683,23 +700,6 @@
                 }
             }
 
-            // Comprobar consentimiento previo
-            if (getStorage('user_consent_accepted') === 'true') {
-                if (modalConsent) modalConsent.classList.remove('active');
-                document.body.classList.remove('consent-pending');
-            }
-
-            // Handler para aceptar consentimiento
-            if (btnAcceptConsent) {
-                btnAcceptConsent.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setStorage('user_consent_accepted', 'true');
-                    if (modalConsent) modalConsent.classList.remove('active');
-                    document.body.classList.remove('consent-pending');
-                });
-            }
-
             const linkPrivacy = document.getElementById('link-privacy-inline');
             const linkTerms = document.getElementById('link-terms-inline');
             const btnPrivacy = document.getElementById('btn-privacy');
@@ -710,7 +710,7 @@
             if (btnPrivacy) btnPrivacy.addEventListener('click', (e) => { e.preventDefault(); openLegalModal('Política de Privacidad', privacyText); });
             if (btnTerms) btnTerms.addEventListener('click', (e) => { e.preventDefault(); openLegalModal('Términos y Condiciones', termsText); });
 
-            if (closeModal) {
+            if (closeModal && modalPolicy) {
                 closeModal.addEventListener('click', () => modalPolicy.classList.remove('active'));
             }
             if (modalPolicy) {
@@ -720,7 +720,6 @@
             }
         }
 
-        // Ejecución segura sin depender de eventos DOM no disparados
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initApp);
         } else {
