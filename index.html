@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Deal Scout - Best Deals & Discounts</title>
 
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YGRPPFB9BG"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-YGRPPFB9BG');
     </script>
 
@@ -38,9 +36,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        body.consent-pending {
-            overflow: hidden !important;
-        }
+        body.consent-pending { overflow: hidden !important; }
 
         header { 
             background-color: var(--primary); 
@@ -158,6 +154,185 @@
         .filter-chip.active { background: #0284c7; color: #ffffff; border-color: #0284c7; }
 
         .main-container { max-width: 1200px; margin: 25px auto; padding: 0 15px; flex: 1; width: 100%; }
+
+        /* ============================== */
+        /* HERO CARD - Featured Deal      */
+        /* ============================== */
+        .hero-wrapper {
+            margin-bottom: 35px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            border-radius: 20px;
+            padding: 5px;
+            box-shadow: 0 15px 40px rgba(251, 191, 36, 0.35), 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .hero-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #0f172a;
+            color: #fbbf24;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            border-radius: 30px;
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5); }
+        }
+
+        .hero-content {
+            background: #ffffff;
+            border-radius: 16px;
+            display: flex;
+            gap: 35px;
+            padding: 35px;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-image {
+            flex: 0 0 340px;
+            height: 340px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .hero-image:hover img {
+            transform: scale(1.08);
+        }
+
+        .hero-info {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .hero-prices {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-old-price {
+            text-decoration: line-through;
+            color: #94a3b8;
+            font-size: 1.3rem;
+        }
+
+        .hero-current-price {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #16a34a;
+            line-height: 1;
+        }
+
+        .hero-discount {
+            background: #ef4444;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .hero-savings {
+            color: #16a34a;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff9900, #e68a00);
+            color: #000000;
+            padding: 18px 45px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 20px rgba(255, 153, 0, 0.4);
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 153, 0, 0.6);
+            background: linear-gradient(135deg, #e68a00, #d97706);
+        }
+
+        /* ============================== */
+        /* GRID DE PRODUCTOS              */
+        /* ============================== */
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
         
         .card { 
@@ -221,10 +396,7 @@
             background: #f1f5f9; 
             color: #475569; 
         }
-        .tag-chip.primary { 
-            background: #e0f2fe; 
-            color: #0369a1; 
-        }
+        .tag-chip.primary { background: #e0f2fe; color: #0369a1; }
 
         .title { 
             font-size: 0.88rem; 
@@ -274,31 +446,21 @@
 
         .modal-overlay { 
             position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
+            top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(15, 23, 42, 0.75); 
             backdrop-filter: blur(4px);
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
+            display: flex; align-items: center; justify-content: center; 
             z-index: 1000; 
-            opacity: 0; 
-            visibility: hidden; 
+            opacity: 0; visibility: hidden; 
             transition: all 0.3s ease; 
         }
         .modal-overlay.active { opacity: 1; visibility: visible; display: flex !important; }
-        
-        #modal-policy {
-            z-index: 1100;
-        }
+        #modal-policy { z-index: 1100; }
 
         .modal-card { 
             background: #ffffff; 
             color: var(--text-main); 
-            width: 90%; 
-            max-width: 580px; 
+            width: 90%; max-width: 580px; 
             padding: 30px; 
             border-radius: 16px; 
             position: relative; 
@@ -309,53 +471,28 @@
         }
         .modal-card h3 { margin-bottom: 15px; color: var(--primary); font-size: 1.25rem; }
         .modal-card p { margin-bottom: 12px; line-height: 1.6; color: #475569; font-size: 0.92rem; }
-        .modal-card ul { margin: 10px 0 15px 20px; color: #475569; font-size: 0.9rem; line-height: 1.5; }
         .close-modal { 
-            position: absolute; 
-            top: 15px; 
-            right: 20px; 
-            background: none; 
-            border: none; 
-            font-size: 1.5rem; 
-            cursor: pointer; 
+            position: absolute; top: 15px; right: 20px; 
+            background: none; border: none; 
+            font-size: 1.5rem; cursor: pointer; 
             color: var(--text-muted); 
         }
 
-        .consent-card {
-            text-align: center;
-        }
-        .consent-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-        }
-        .consent-card p {
-            text-align: justify;
-            font-size: 0.9rem;
-            margin-bottom: 16px;
-        }
-        .consent-links-inline {
-            color: #0284c7;
-            text-decoration: underline;
-            cursor: pointer;
-            font-weight: 600;
-        }
+        .consent-card { text-align: center; }
+        .consent-card h3 { font-size: 1.3rem; margin-bottom: 12px; }
+        .consent-card p { text-align: justify; font-size: 0.9rem; margin-bottom: 16px; }
+        .consent-links-inline { color: #0284c7; text-decoration: underline; cursor: pointer; font-weight: 600; }
         .btn-consent {
-            display: inline-block;
-            width: 100%;
-            background-color: var(--accent);
-            color: #000000;
-            border: none;
-            padding: 12px 20px;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 10px;
+            display: inline-block; width: 100%;
+            background-color: var(--accent); color: #000000;
+            border: none; padding: 12px 20px;
+            font-size: 1rem; font-weight: 700;
+            border-radius: 10px; cursor: pointer;
+            transition: background 0.2s; margin-top: 10px;
         }
-        .btn-consent:hover {
-            background-color: var(--accent-hover);
-        }
+        .btn-consent:hover { background-color: var(--accent-hover); }
+
+        .no-results { text-align: center; grid-column: 1 / -1; padding: 40px; color: var(--text-muted); }
 
         @media (max-width: 600px) {
             header { padding: 12px 15px; }
@@ -370,11 +507,20 @@
             .filter-chip { padding: 5px 12px; font-size: 0.78rem; }
 
             .main-container { padding: 0 10px; margin: 15px auto; }
-            .cards-grid { 
-                grid-template-columns: repeat(2, 1fr); 
-                gap: 10px; 
-            }
 
+            /* HERO CARD mobile */
+            .hero-wrapper { margin-bottom: 20px; }
+            .hero-badge { font-size: 0.65rem; padding: 6px 12px; top: 12px; right: 12px; letter-spacing: 1px; }
+            .hero-content { flex-direction: column; padding: 18px; gap: 15px; }
+            .hero-image { flex: 1 1 100%; width: 100%; height: 220px; padding: 15px; }
+            .hero-title { font-size: 1.15rem; margin-bottom: 12px; }
+            .hero-current-price { font-size: 1.9rem; }
+            .hero-old-price { font-size: 1rem; }
+            .hero-discount { font-size: 0.85rem; padding: 5px 11px; }
+            .hero-savings { font-size: 0.85rem; margin-bottom: 15px; }
+            .hero-btn { padding: 14px 25px; font-size: 0.95rem; width: 100%; text-align: center; }
+
+            .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .card { border-radius: 8px; }
             .badge-store, .badge-amazon, .store-badge, .amazon-badge { top: 6px; left: 6px; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; }
             .badge-discount { top: 6px; right: 6px; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; }
@@ -407,7 +553,7 @@
         <div class="carousel-container">
             <button class="nav-arrow left" id="arrow-left" aria-label="Previous">&lt;</button>
             <div class="carousel-track" id="main-carousel">
-                <button class="filter-btn active" data-filter-gen="all">Todas las secciones</button><button class="filter-btn" data-filter-gen="fashion">Fashion</button><button class="filter-btn" data-filter-gen="home">Home</button><button class="filter-btn" data-filter-gen="sports">Sports</button>
+                <button class="filter-btn active" data-filter-gen="all">All</button>
             </div>
             <button class="nav-arrow right" id="arrow-right" aria-label="Next">&gt;</button>
         </div>
@@ -419,87 +565,36 @@
     </div>
 
     <div class="main-container">
+        
+    <div class="hero-wrapper">
+      <div class="hero-card">
+        <div class="hero-badge">🏆 FEATURED DEAL</div>
+        <div class="hero-content">
+          <div class="hero-image">
+            <img src="" alt="" loading="lazy" />
+          </div>
+          <div class="hero-info">
+            <div class="hero-tags">
+              <span class="tag-chip primary"></span>
+              <span class="tag-chip"></span>
+            </div>
+            <h2 class="hero-title">Product</h2>
+            <div class="hero-prices">
+              <span class="hero-old-price">$0</span>
+              <span class="hero-current-price">$0</span>
+              <span class="hero-discount">-0%</span>
+            </div>
+            <div class="hero-savings">You save $NaN</div>
+            <a href="#" target="_blank" rel="noopener" class="hero-btn">View Deal on Amazon →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
         <div class="cards-grid" id="cards-container">
             
-  <div class="card" data-cat-general="fashion" data-cat-especifica="hiking pants">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-33%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/61-KghizpWL._AC_SY445_SX342_QL70_FMwebp_.jpg" alt="Hidkat Women's Outdoor Hiking Pants, Stretchy Running Athletic Pants">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Fashion</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Hiking Pants</span>
-        </div>
-        <h2 class="title">Hidkat Women's Outdoor Hiking Pants, Stretchy Running Athletic Pants</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$ 119.960 COP</span>
-          <span class="current-price">$ 79.960 COP</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0DYYK8YXJ?tag=cazadorofer0a-20" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="home" data-cat-especifica="picnic table covers">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-20%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/910+0UGyKoL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Fitted Picnic Table Cover With Bench Covers, Vinyl Waterproof Elastic Edges, Fitted Rectangle Tables, Patio Tablecloth, Camping Gear and Essentials, RV Accessories, Road Trip Supplies, Car Travel Must Haves">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Home</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Picnic Table Covers</span>
-        </div>
-        <h2 class="title">Fitted Picnic Table Cover With Bench Covers, Vinyl Waterproof Elastic Edges, Fitted Rectangle Tables, Patio Tablecloth, Camping Gear and Essentials, RV Accessories, Road Trip Supplies, Car Travel Must Haves</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$ 79.960 COP</span>
-          <span class="current-price">$ 63.960 COP</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0CQ2H5CP3?tag=cazadorofer0a-20" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-cat-general="sports" data-cat-especifica="camping water containers">
-    <span class="platform-tag amazon">Amazon</span>
-    <span class="badge-discount">-30%</span>
-
-    <div class="img-container">
-      <img src="https://m.media-amazon.com/images/I/71YATOD+GXL._AC_SY300_SX300_QL70_FMwebp_.jpg" alt="Camping Water Container, 2 Gallon Collapsible Water Jug With Spout - Reusable Plastic Flasks, Foldable Empty Gallon Jug for Water Storage, Water Bag for Outdoor Hiking Emergency Prep (1 Pack)">
-    </div>
-
-    <div class="card-body">
-      <div>
-        <div class="tags">
-          <span class="tag">Sports</span>
-          <span class="tag" style="background:#e0f2fe; color:#0369a1;">Camping Water Containers</span>
-        </div>
-        <h2 class="title">Camping Water Container, 2 Gallon Collapsible Water Jug With Spout - Reusable Plastic Flasks, Foldable Empty Gallon Jug for Water Storage, Water Bag for Outdoor Hiking Emergency Prep (1 Pack)</h2>
-      </div>
-      <div>
-        <div class="price-container">
-          <span class="old-price">$ 39.960 COP</span>
-          <span class="current-price">$ 27.960 COP</span>
-        </div>
-        <a href="https://www.amazon.com/dp/B0FTZ5M84W?tag=cazadorofer0a-20" class="btn" target="_blank" rel="noopener noreferrer">Ver Oferta</a>
-      </div>
-    </div>
-  </div>
-
-            <div class="no-results" id="no-results" style="display:none; text-align:center; grid-column:1/-1; padding:40px; color:var(--text-muted);">
+            <div class="no-results" id="no-results" style="display:none;">
                 No products found in this category.
             </div>
         </div>
@@ -540,10 +635,7 @@
 
     <script>
         function closeConsentModal() {
-            try {
-                localStorage.setItem('user_consent_accepted', 'true');
-            } catch(e) {}
-
+            try { localStorage.setItem('user_consent_accepted', 'true'); } catch(e) {}
             const modalConsent = document.getElementById('modal-consent');
             if (modalConsent) {
                 modalConsent.classList.remove('active');
@@ -555,15 +647,11 @@
 
         function initApp() {
             try {
-                if (localStorage.getItem('user_consent_accepted') === 'true') {
-                    closeConsentModal();
-                }
+                if (localStorage.getItem('user_consent_accepted') === 'true') closeConsentModal();
             } catch(e) {}
 
             const btnAccept = document.getElementById('btn-accept-consent');
-            if (btnAccept) {
-                btnAccept.addEventListener('click', closeConsentModal);
-            }
+            if (btnAccept) btnAccept.addEventListener('click', closeConsentModal);
 
             const cardsContainer = document.getElementById('cards-container');
             const noResults = document.getElementById('no-results');
@@ -586,19 +674,11 @@
                     });
                 };
                 removeDollarNodes(card);
-
-                const existingBadge = card.querySelector('.badge-store, .badge-amazon, .store-badge, .amazon-badge');
-                if (!existingBadge) {
-                    const el = Array.from(card.querySelectorAll('span, div')).find(node => node.textContent.trim().toLowerCase() === 'amazon');
-                    if (el) el.classList.add('badge-amazon');
-                }
             });
 
             if (cardsContainer) {
                 Array.from(cardsContainer.childNodes).forEach(node => {
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        node.remove();
-                    }
+                    if (node.nodeType === Node.TEXT_NODE) node.remove();
                 });
             }
 
